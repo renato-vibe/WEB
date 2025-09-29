@@ -69,7 +69,7 @@
           <a href="#llamada" class="inline-flex items-center gap-2 rounded-xl border border-zinc-300 px-6 py-3 text-base hover:bg-zinc-50 focus-ring">
             Agenda una llamada
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72l.57 3.42a2 2 0 0 1-.57 1.73L9.91 11a16 16 0 0 0 6.18 6.18l1.13-1.18a2 2 0 0 1 1.73-.57l3.42.57A2 2 0 0 1 22 16.92Z" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3 5.18 A2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72l.57 3.42a2 2 0 0 1-.57 1.73L9.91 11a16 16 0 0 0 6.18 6.18l1.13-1.18a2 2 0 0 1 1.73-.57l3.42.57A2 2 0 0 1 22 16.92Z" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
           <a href="#contacto" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black focus-ring">
@@ -386,50 +386,50 @@
           box.closest('.pillar').addEventListener('pointerleave', hide, {passive:true});
           box.addEventListener('focus', show);  box.addEventListener('blur', hide);
         } else {
-          // En táctiles, gestionaremos la visibilidad por scroll (abajo)
+          // En táctiles, gestionaremos la visibilidad por IO (abajo)
           hide();
         }
       });
 
-      /* ====== MOBILE/TÁCTIL: activar por pilar más centrado ====== */
+      /* ====== MOBILE/TÁCTIL: auto-play por visibilidad (≥ 90%) con histéresis ====== */
       const isCoarse = matchMedia('(pointer: coarse)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
       if(isCoarse){
-        const pillarsList = Array.from(document.querySelectorAll('.pillar'));
-        let lastActive = null;
+        const cards = Array.from(document.querySelectorAll('.pillar'));
+        // Para evitar parpadeo: arrancamos cuando >= 0.9 y paramos cuando < 0.75
+        const START_T = 0.9, STOP_T = 0.75;
+        const states = new WeakMap(); // pillar -> 'on'|'off'
 
-        function evalCenter(){
-          const vhCenter = window.innerHeight/2;
-          let best = null, bestDist = Infinity;
+        const io = new IntersectionObserver((entries)=>{
+          entries.forEach(entry=>{
+            const p = entry.target;
+            const anim = p.querySelector('.anim-box');
+            if(!anim) return;
+            const canvas = anim.querySelector('canvas');
+            const key = canvas && canvas.id;
+            if(!key || !runners[key]) return;
 
-          pillarsList.forEach(p=>{
-            const r = p.getBoundingClientRect();
-            const center = r.top + r.height/2;
-            const dist = Math.abs(center - vhCenter);
-            if(dist < bestDist){ bestDist = dist; best = p; }
-          });
+            const { runner, box } = runners[key];
+            const prev = states.get(p) || 'off';
+            const ratio = entry.intersectionRatio;
 
-          if(best && best !== lastActive){
-            // Ocultar todas
-            Object.values(runners).forEach(({runner, box})=>{
-              box.classList.remove('anim-show'); box.classList.add('anim-hide'); runner.stop();
-            });
-            // Mostrar la del pilar activo
-            const anim = best.querySelector('.anim-box');
-            if(anim){
-              anim.classList.remove('anim-hide'); anim.classList.add('anim-show');
-              const canvas = anim.querySelector('canvas');
-              const key = canvas && canvas.id;
-              if(key && runners[key]) runners[key].runner.start();
+            if (ratio >= START_T && prev !== 'on') {
+              // activar
+              states.set(p,'on');
+              box.classList.remove('anim-hide'); box.classList.add('anim-show');
+              runner.start();
+            } else if (ratio < STOP_T && prev !== 'off') {
+              // desactivar
+              states.set(p,'off');
+              box.classList.remove('anim-show'); box.classList.add('anim-hide');
+              runner.stop();
             }
-            lastActive = best;
-          }
-        }
+          });
+        }, {
+          threshold: Array.from({length:21}, (_,i)=>i/20) // 0, .05, .10, ..., 1
+        });
 
-        // Iniciar con la primera visible/centrada
-        evalCenter();
-        addEventListener('scroll', ()=>{ requestAnimationFrame(evalCenter); }, {passive:true});
-        addEventListener('resize', ()=>{ requestAnimationFrame(evalCenter); }, {passive:true});
+        cards.forEach(c=>io.observe(c));
+        addEventListener('beforeunload', ()=>io.disconnect(), {once:true});
       }
     })();
   </script>
