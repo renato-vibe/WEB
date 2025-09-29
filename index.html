@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solomon Labs — Ideación · Innovación · Difusión</title>
+  <link rel="icon" href="solomon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",Arial}
+    /* Rotador */
+    .slide-enter{opacity:0;transform:translateY(1.2em)}
+    .slide-enter-active{opacity:1;transform:translateY(0);transition:opacity .45s ease,transform .45s ease}
+    .slide-exit{opacity:1;transform:translateY(0)}
+    .slide-exit-active{opacity:0;transform:translateY(-1.2em);transition:opacity .35s ease,transform .35s ease}
+    .rotator-wrap{position:relative;overflow:hidden;height:5.0em;line-height:1.1}
+    .rotator-text{display:block;white-space:nowrap;letter-spacing:-.01em}
+    /* Cards */
+    .pillar{transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease}
+    .pillar:hover,.pillar:focus-within{transform:translateY(-2px) scale(1.01);box-shadow:0 20px 45px rgba(0,0,0,.08)}
+    .anim-box{position:relative;border-radius:1rem;background:#000;overflow:hidden;min-height:14rem}
+    .anim-box canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+    .anim-hide{opacity:0;transform:scale(.98);pointer-events:none}
+    .anim-show{opacity:1;transform:scale(1)}
+    .anim-box{transition:opacity .25s ease, transform .25s ease}
+    .focus-ring:focus-visible{outline:3px solid #6366f1;outline-offset:2px;border-radius:.75rem}
+    @media (prefers-reduced-motion: reduce){.slide-enter-active,.slide-exit-active,.pillar,.anim-box{transition:none}}
+
+    /* Hero shrink on scroll */
+    #hero { will-change: transform, opacity; transform-origin: center top; }
+  </style>
+</head>
+<body class="bg-white text-zinc-900 antialiased">
+
+  <!-- Header -->
+  <header class="container mx-auto px-6 py-4 flex items-center justify-between">
+    <a class="inline-flex items-center gap-3 focus-ring" href="#top" aria-label="Inicio Solomon Labs">
+      <!-- SIN marco/borde redondeado -->
+      <img src="solomon.png" alt="Solomon Labs" class="w-9 h-9">
+      <span class="text-xl font-extrabold tracking-tight">Solomon Labs</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-4">
+      <a href="#pilares" class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Pilares</a>
+      <a href="#contacto" class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Contacto</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section id="hero" class="container mx-auto px-6">
+      <div class="flex gap-8 py-24 lg:py-[9rem] items-center justify-center flex-col text-center">
+        <a href="#articulo" class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100/60 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 focus-ring">
+          Lee nuestro artículo de lanzamiento
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <h1 class="text-5xl md:text-7xl tracking-tighter font-extrabold">Solomon Labs</h1>
+        <p class="text-lg md:text-xl leading-relaxed tracking-tight text-zinc-600 max-w-2xl">Tu idea a tus manos en días.</p>
+
+        <div class="rotator-wrap pt-1 md:pt-2">
+          <span id="rotator" class="rotator-text text-4xl md:text-6xl font-semibold">Ideación.</span>
+        </div>
+
+        <div class="flex flex-row gap-3">
+          <a href="#llamada" class="inline-flex items-center gap-2 rounded-xl border border-zinc-300 px-6 py-3 text-base hover:bg-zinc-50 focus-ring">
+            Agenda una llamada
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72l.57 3.42a2 2 0 0 1-.57 1.73L9.91 11a16 16 0 0 0 6.18 6.18l1.13-1.18a2 2 0 0 1 1.73-.57l3.42.57A2 2 0 0 1 22 16.92Z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#contacto" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black focus-ring">
+            Contáctanos
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PILARES -->
+    <section id="pilares" class="container mx-auto px-6 pb-24 md:pb-28">
+      <h2 class="text-2xl md:text-3xl font-extrabold mb-6 flex items-center gap-3">
+        <!-- SIN marco/borde redondeado -->
+        <img src="solomon.png" alt="" class="w-7 h-7">
+        Nuestros pilares
+      </h2>
+
+      <div class="space-y-6">
+
+        <!-- Velocidad (Prism) -->
+        <article class="pillar p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white">
+          <div class="grid md:grid-cols-[1fr_22rem] gap-5 items-stretch">
+            <div>
+              <h3 class="text-2xl font-bold">Velocidad</h3>
+              <p class="text-zinc-600 mt-3 max-w-prose">
+                De idea a demo funcional en días. Quitamos fricción, automatizamos lo repetitivo y priorizamos lo esencial. Tú validas antes; nosotros iteramos con datos.
+              </p>
+              <ul class="mt-6 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
+                <li>Brief a demo &lt; 72h</li><li>Demos diarias</li>
+                <li>Builds livianos</li><li>Decisiones por impacto</li>
+              </ul>
+            </div>
+            <div class="anim-box anim-hide focus-ring" data-canvas="speed" tabindex="0" aria-label="Animación Velocidad">
+              <canvas id="cv-speed"></canvas>
+            </div>
+          </div>
+        </article>
+
+        <!-- Costo eficiente (Grid técnico sobrio) -->
+        <article class="pillar p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white">
+          <div class="grid md:grid-cols-[1fr_22rem] gap-5 items-stretch">
+            <div>
+              <h3 class="text-2xl font-bold">Costo eficiente</h3>
+              <p class="text-zinc-600 mt-3 max-w-prose">
+                Frugalidad elegante: componentes probados, servicios orquestados y aprendizaje barato antes de escalar. Orden, previsibilidad y foco en lo que mueve la aguja.
+              </p>
+              <ul class="mt-6 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
+                <li>Arquitectura modular</li><li>Infra mínima viable</li>
+                <li>Reutilización sistemática</li><li>Costes previsibles</li>
+              </ul>
+            </div>
+            <div class="anim-box anim-hide focus-ring" data-canvas="cost" tabindex="0" aria-label="Animación Costo eficiente">
+              <canvas id="cv-cost"></canvas>
+            </div>
+          </div>
+        </article>
+
+        <!-- Difusión (Lightwave) -->
+        <article class="pillar p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white">
+          <div class="grid md:grid-cols-[1fr_22rem] gap-5 items-stretch">
+            <div>
+              <h3 class="text-2xl font-bold">Difusión</h3>
+              <p class="text-zinc-600 mt-3 max-w-prose">
+                Hacemos visible el valor: demos nítidas, copy conciso y activos listos para web y social. Lo técnico se vuelve claro y deseable.
+              </p>
+              <ul class="mt-6 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
+                <li>Micrositios / pitch</li><li>Motion/UI que explica</li>
+                <li>Mensajes claros</li><li>Embeds y handoff</li>
+              </ul>
+            </div>
+            <div class="anim-box anim-hide focus-ring" data-canvas="lightwave" tabindex="0" aria-label="Animación Difusión">
+              <canvas id="cv-lightwave"></canvas>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contacto" class="border-t border-zinc-200/70 py-10">
+      <div class="container mx-auto px-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <!-- SIN marco/borde redondeado -->
+          <img src="solomon.png" alt="" class="w-8 h-8">
+          <strong>Solomon Labs</strong>
+        </div>
+        <p class="text-zinc-600">¿Tienes un reto? En 30&nbsp;min trazamos el primer sprint.</p>
+        <a href="#llamada" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black focus-ring">Agenda una llamada</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Rotador -->
+  <script>
+    (function(){
+      const words = ["Ideación.", "Innovación.", "Difusión."];
+      const el = document.getElementById("rotator");
+      let idx = 0, ticking = false;
+      function setWord(next){
+        if(ticking) return; ticking = true;
+        el.classList.remove("slide-enter","slide-enter-active");
+        el.classList.add("slide-exit");
+        requestAnimationFrame(()=>{ el.classList.add("slide-exit-active"); });
+        const onExitEnd = ()=> {
+          el.removeEventListener("transitionend", onExitEnd);
+          el.textContent = next;
+          el.classList.remove("slide-exit","slide-exit-active");
+          el.classList.add("slide-enter");
+          requestAnimationFrame(()=>{
+            el.classList.add("slide-enter-active");
+            const onEnterEnd = ()=>{
+              el.removeEventListener("transitionend", onEnterEnd);
+              el.classList.remove("slide-enter","slide-enter-active");
+              ticking=false;
+            };
+            el.addEventListener("transitionend", onEnterEnd, {once:true});
+          });
+        };
+        el.addEventListener("transitionend", onExitEnd, {once:true});
+      }
+      setInterval(()=>{ const next=(idx+1)%words.length; setWord(words[next]); idx=next; }, 2200);
+    })();
+  </script>
+
+  <!-- ====== WebGL helpers ====== -->
+  <script>
+    function fitGL(canvas, gl){
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width * dpr));
+      const h = Math.max(1, Math.floor(rect.height * dpr));
+      if(canvas.width!==w || canvas.height!==h){ canvas.width=w; canvas.height=h; gl.viewport(0,0,w,h); }
+    }
+    function makeProgram(gl, vsSrc, fsSrc){
+      const vs = gl.createShader(gl.VERTEX_SHADER); gl.shaderSource(vs, vsSrc); gl.compileShader(vs);
+      if(!gl.getShaderParameter(vs, gl. COMPILE_STATUS)) throw gl.getShaderInfoLog(vs);
+      const fs = gl.createShader(gl.FRAGMENT_SHADER); gl.shaderSource(fs, fsSrc); gl.compileShader(fs);
+      if(!gl.getShaderParameter(fs, gl. COMPILE_STATUS)) throw gl.getShaderInfoLog(fs);
+      const pr = gl.createProgram(); gl.attachShader(pr,vs); gl.attachShader(pr,fs); gl.linkProgram(pr);
+      if(!gl.getProgramParameter(pr, gl.LINK_STATUS)) throw gl.getProgramInfoLog(pr);
+      gl.deleteShader(vs); gl.deleteShader(fs); return pr;
+    }
+    function runShader(canvas, build){
+      const gl = canvas.getContext('webgl',{alpha:false, antialias:false});
+      if(!gl) return null;
+      const { draw, uniforms } = build(gl);
+      let active = false, raf=0;
+      function loop(t){
+        if(!active){ raf=0; return; }
+        fitGL(canvas,gl);
+        if(uniforms.r) gl.uniform2f(uniforms.r, canvas.width, canvas.height);
+        if(uniforms.t) gl.uniform1f(uniforms.t, t*0.001);
+        gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT);
+        draw();
+        raf = requestAnimationFrame(loop);
+      }
+      function start(){ if(active) return; active=true; if(!raf) raf=requestAnimationFrame(loop); }
+      function stop(){ active=false; if(raf){ cancelAnimationFrame(raf); raf=0; } }
+      addEventListener('resize',()=>fitGL(canvas,gl),{passive:true});
+      return { start, stop, canvas };
+    }
+  </script>
+
+  <!-- ====== Shaders ====== -->
+  <script>
+    /* Prism – usado para VELOCIDAD */
+    function buildPrism(gl){
+      const vs=`attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);} `;
+      const fs=`
+        precision highp float; uniform vec2 r; uniform float t;
+        float n2(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.545);}
+        void main(){
+          vec2 uv=(gl_FragCoord.xy-0.5*r)/min(r.x,r.y);
+          vec2 p=uv; vec3 col=vec3(0.0); float rot=t*0.45;
+          mat2 R=mat2(cos(rot),-sin(rot),sin(rot),cos(rot));
+          for(int i=0;i<70;i++){
+            p=R*p;
+            float d=max(abs(p.x)*0.8+abs(p.y*1.2)-0.22,0.0);
+            float glow=0.012/(0.002+d);
+            vec3 spec=vec3(
+              0.55+0.45*sin(6.2831*(d*4.0-0.00)),
+              0.55+0.45*sin(6.2831*(d*4.0-0.33)),
+              0.55+0.45*sin(6.2831*(d*4.0-0.66))
+            );
+            col+=glow*spec*0.85;
+            p*=1.03;
+          }
+          col=clamp(col+(n2(gl_FragCoord.xy+t)*0.02),0.0,1.0);
+          gl_FragColor=vec4(col,1.0);
+        }`;
+      const pr=makeProgram(gl,vs,fs); gl.useProgram(pr);
+      const buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+      gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+      const loc=gl.getAttribLocation(pr,'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+      const uR=gl.getUniformLocation(pr,'r'), uT=gl.getUniformLocation(pr,'t');
+      return { uniforms:{r:uR,t:uT}, draw:()=>gl.drawArrays(gl.TRIANGLES,0,3) };
+    }
+
+    /* Cost – grid técnico sobrio (cian→índigo) */
+    function buildCost(gl){
+      const vs=`attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);} `;
+      const fs=`
+        precision highp float; uniform vec2 r; uniform float t;
+        float grid(vec2 p, float w){
+          vec2 g = abs(fract(p)-0.5);
+          float line = min(g.x,g.y);
+          return smoothstep(w, w*0.2, line);
+        }
+        float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+        void main(){
+          vec2 uv = (gl_FragCoord.xy - 0.5*r)/min(r.x,r.y);
+          vec2 p = uv * 2.2;
+          float t1 = t*0.12;
+          p += vec2(sin(t1*0.6), cos(t1*0.4))*0.05;
+
+          float g1 = grid(p*4.0, 0.015);
+          float g2 = grid(p*20.0, 0.006);
+
+          vec2 id = floor(p*4.0);
+          float nodes = step(0.985, hash(id + floor(t*0.5))) * 0.6;
+
+          float l = g1*0.55 + g2*0.35 + nodes;
+          vec3 baseA = vec3(0.05,0.65,0.85);
+          vec3 baseB = vec3(0.20,0.28,0.85);
+          float grad = 0.5 + 0.5*sin((uv.x+uv.y)*1.2 - t*0.15);
+          vec3 col = mix(baseB, baseA, grad) * l;
+
+          float d = length(uv);
+          col *= smoothstep(1.05, 0.35, d);
+
+          gl_FragColor = vec4(col, 1.0);
+        }`;
+      const pr=makeProgram(gl,vs,fs); gl.useProgram(pr);
+      const buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+      gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+      const loc=gl.getAttribLocation(pr,'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+      const uR=gl.getUniformLocation(pr,'r'), uT=gl.getUniformLocation(pr,'t');
+      return { uniforms:{r:uR,t:uT}, draw:()=>gl.drawArrays(gl.TRIANGLES,0,3) };
+    }
+
+    /* Lightwave – difracción RGB (difusión) */
+    function buildLightwave(gl){
+      const vs=`attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);} `;
+      const fs=`
+        precision highp float; uniform vec2 r; uniform float t;
+        void main(){
+          vec2 p=(gl_FragCoord.xy*2.0-r)/min(r.x,r.y);
+          float d=length(p)*0.12;
+          float rx=p.x*(1.0+d), gx=p.x, bx=p.x*(1.0-d);
+          float rC=0.05/abs(p.y+sin((rx+t)*1.1)*0.55);
+          float gC=0.05/abs(p.y+sin((gx+t)*1.1)*0.55);
+          float bC=0.05/abs(p.y+sin((bx+t)*1.1)*0.55);
+          vec3 col=vec3(rC,gC,bC);
+          col*=1.0-smoothstep(0.75,1.2,length(p));
+          gl_FragColor=vec4(col,1.0);
+        }`;
+      const pr=makeProgram(gl,vs,fs); gl.useProgram(pr);
+      const buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+      gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+      const loc=gl.getAttribLocation(pr,'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+      const uR=gl.getUniformLocation(pr,'r'), uT=gl.getUniformLocation(pr,'t');
+      return { uniforms:{r:uR,t:uT}, draw:()=>gl.drawArrays(gl.TRIANGLES,0,3) };
+    }
+  </script>
+
+  <!-- Vincular animaciones y lógica de scroll/visibilidad -->
+  <script>
+    (function(){
+      /* ====== HERO SHRINK ====== */
+      const hero = document.getElementById('hero');
+      const pillars = document.getElementById('pilares');
+      let ticking = false;
+      function onScroll(){
+        if(ticking) return; ticking = true;
+        requestAnimationFrame(()=>{
+          const start = 0;
+          const end = pillars.getBoundingClientRect().top + window.scrollY - window.innerHeight*0.15;
+          const y = window.scrollY;
+          const prog = Math.min(1, Math.max(0, (y - start) / Math.max(1, end-start)));
+          const scale = 1 - 0.08*prog;
+          const opacity = 1 - 0.12*prog;
+          hero.style.transform = `scale(${scale}) translateZ(0)`;
+          hero.style.opacity = opacity.toFixed(3);
+          ticking = false;
+        });
+      }
+      onScroll();
+      addEventListener('scroll', onScroll, {passive:true});
+      addEventListener('resize', onScroll, {passive:true});
+
+      /* ====== SHADERS ====== */
+      const maps = {
+        speed:     { id:'cv-speed',     build:buildPrism },
+        cost:      { id:'cv-cost',      build:buildCost },
+        lightwave: { id:'cv-lightwave', build:buildLightwave }
+      };
+      const runners = {};
+      Object.values(maps).forEach(info=>{
+        const canvas = document.getElementById(info.id);
+        const box = canvas.parentElement;
+        const runner = runShader(canvas, info.build);
+        runners[info.id] = { runner, box };
+
+        function show(){ box.classList.remove('anim-hide'); box.classList.add('anim-show'); runner && runner.start(); }
+        function hide(){ box.classList.remove('anim-show'); box.classList.add('anim-hide'); runner && runner.stop(); }
+
+        // Desktop (dispositivos con hover real): hover/focus
+        if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+          box.closest('.pillar').addEventListener('pointerenter', show, {passive:true});
+          box.closest('.pillar').addEventListener('pointerleave', hide, {passive:true});
+          box.addEventListener('focus', show);  box.addEventListener('blur', hide);
+        } else {
+          // En táctiles, gestionaremos la visibilidad por scroll (abajo)
+          hide();
+        }
+      });
+
+      /* ====== MOBILE/TÁCTIL: activar por pilar más centrado ====== */
+      const isCoarse = matchMedia('(pointer: coarse)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if(isCoarse){
+        const pillarsList = Array.from(document.querySelectorAll('.pillar'));
+        let lastActive = null;
+
+        function evalCenter(){
+          const vhCenter = window.innerHeight/2;
+          let best = null, bestDist = Infinity;
+
+          pillarsList.forEach(p=>{
+            const r = p.getBoundingClientRect();
+            const center = r.top + r.height/2;
+            const dist = Math.abs(center - vhCenter);
+            if(dist < bestDist){ bestDist = dist; best = p; }
+          });
+
+          if(best && best !== lastActive){
+            // Ocultar todas
+            Object.values(runners).forEach(({runner, box})=>{
+              box.classList.remove('anim-show'); box.classList.add('anim-hide'); runner.stop();
+            });
+            // Mostrar la del pilar activo
+            const anim = best.querySelector('.anim-box');
+            if(anim){
+              anim.classList.remove('anim-hide'); anim.classList.add('anim-show');
+              const canvas = anim.querySelector('canvas');
+              const key = canvas && canvas.id;
+              if(key && runners[key]) runners[key].runner.start();
+            }
+            lastActive = best;
+          }
+        }
+
+        // Iniciar con la primera visible/centrada
+        evalCenter();
+        addEventListener('scroll', ()=>{ requestAnimationFrame(evalCenter); }, {passive:true});
+        addEventListener('resize', ()=>{ requestAnimationFrame(evalCenter); }, {passive:true});
+      }
+    })();
+  </script>
+</body>
+</html>
