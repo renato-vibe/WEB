@@ -35,18 +35,77 @@
 </head>
 <body class="bg-white text-zinc-900 antialiased">
 
-  <!-- Header -->
-  <header class="container mx-auto px-6 py-4 flex items-center justify-between">
-    <a class="inline-flex items-center gap-3 focus-ring" href="#top" aria-label="Inicio Solomon Labs">
-      <!-- SIN marco/borde redondeado -->
-      <img src="solomon.png" alt="Solomon Labs" class="w-9 h-9">
-      <span class="text-xl font-extrabold tracking-tight">Solomon Labs</span>
-    </a>
-    <nav class="hidden sm:flex items-center gap-4">
-      <a href="#pilares" class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Pilares</a>
-      <a href="#contacto" class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Contacto</a>
-    </nav>
-  </header>
+<!-- Header -->
+<header class="container mx-auto px-6 py-4 flex items-center justify-between">
+  <!-- Logo / Inicio -->
+  <a class="inline-flex items-center gap-3 focus-ring" href="index.html" aria-label="Inicio — Solomon Labs">
+    <img src="solomon.png" alt="Solomon Labs" class="w-9 h-9">
+    <span class="text-xl font-extrabold tracking-tight">Solomon Labs</span>
+  </a>
+
+  <!-- Desktop nav -->
+  <nav class="hidden sm:flex items-center gap-1">
+    <a href="index.html"      class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Inicio</a>
+    <a href="servicios.html"  class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Servicios</a>
+    <a href="casos.html"      class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Casos</a>
+    <a href="contacto.html"   class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Contacto</a>
+
+    <!-- Idioma (placeholder sin lógica aún) -->
+    <button type="button"
+            class="ml-1 inline-flex items-center gap-2 rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 focus-ring"
+            aria-label="Cambiar idioma (ENG/ESP)">
+      ENG / ESP
+    </button>
+  </nav>
+
+  <!-- Mobile: hamburger -->
+  <button id="nav-toggle"
+          class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-md border border-zinc-300 text-zinc-700 hover:bg-zinc-50 focus-ring"
+          aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+  </button>
+</header>
+
+<!-- Mobile menu panel -->
+<nav id="mobile-nav" class="sm:hidden hidden container mx-auto px-6 pb-4">
+  <div class="mt-2 rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
+    <a href="index.html"      class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Inicio</a>
+    <a href="servicios.html"  class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Servicios</a>
+    <a href="casos.html"      class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Casos</a>
+    <a href="contacto.html"   class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Contacto</a>
+    <div class="border-t border-zinc-200" />
+    <button type="button"
+            class="w-full text-left px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50"
+            aria-label="Cambiar idioma (ENG/ESP)">
+      ENG / ESP
+    </button>
+  </div>
+</nav>
+
+<script>
+  // Toggle simple del menú móvil
+  (function() {
+    const btn = document.getElementById('nav-toggle');
+    const panel = document.getElementById('mobile-nav');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', () => {
+      const isHidden = panel.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(!isHidden));
+    });
+
+    // Cierra el panel al cambiar a viewport >= sm
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 640 && !panel.classList.contains('hidden')) {
+        panel.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }, { passive: true });
+  })();
+</script>
+
 
   <main id="top">
     <!-- HERO -->
@@ -59,7 +118,7 @@
           </svg>
         </a>
         <h1 class="text-5xl md:text-7xl tracking-tighter font-extrabold">Solomon Labs</h1>
-        <p class="text-lg md:text-xl leading-relaxed tracking-tight text-zinc-600 max-w-2xl">Tu idea a tus manos en días.</p>
+        <p class="text-lg md:text-xl leading-relaxed tracking-tight text-zinc-600 max-w-2xl">Tu idea a tus manos.</p>
 
         <div class="rotator-wrap pt-1 md:pt-2">
           <span id="rotator" class="rotator-text text-4xl md:text-6xl font-semibold">Ideación.</span>
@@ -167,36 +226,65 @@
   </main>
 
   <!-- Rotador -->
-  <script>
-    (function(){
-      const words = ["Ideación.", "Innovación.", "Difusión."];
-      const el = document.getElementById("rotator");
-      let idx = 0, ticking = false;
-      function setWord(next){
-        if(ticking) return; ticking = true;
-        el.classList.remove("slide-enter","slide-enter-active");
-        el.classList.add("slide-exit");
-        requestAnimationFrame(()=>{ el.classList.add("slide-exit-active"); });
-        const onExitEnd = ()=> {
-          el.removeEventListener("transitionend", onExitEnd);
-          el.textContent = next;
-          el.classList.remove("slide-exit","slide-exit-active");
-          el.classList.add("slide-enter");
-          requestAnimationFrame(()=>{
-            el.classList.add("slide-enter-active");
-            const onEnterEnd = ()=>{
-              el.removeEventListener("transitionend", onEnterEnd);
-              el.classList.remove("slide-enter","slide-enter-active");
-              ticking=false;
-            };
-            el.addEventListener("transitionend", onEnterEnd, {once:true});
-          });
-        };
-        el.addEventListener("transitionend", onExitEnd, {once:true});
-      }
-      setInterval(()=>{ const next=(idx+1)%words.length; setWord(words[next]); idx=next; }, 2200);
-    })();
-  </script>
+<script>
+  (function () {
+    // Orden solicitado
+    const words = ["Websites.", "Apps.", "Agentes IA.", "SaaS.", "Proyectos."];
+    const el = document.getElementById("rotator");
+
+    // Asegura que el primer texto sea el primero del array
+    if (el) el.textContent = words[0];
+
+    // Clases usadas por tus CSS (.slide-*)
+    const ENTER = ["slide-enter", "slide-enter-active"];
+    const EXIT  = ["slide-exit",  "slide-exit-active"];
+
+    let idx = 0;
+    let running = false;
+
+    // Espera a que termine la transición (con fallback si no hay transición)
+    function onTransitionEndOnce(target) {
+      return new Promise((resolve) => {
+        let done = false;
+        const finish = () => { if (!done) { done = true; resolve(); } };
+        target.addEventListener("transitionend", finish, { once: true });
+        // Fallback por si el navegador suprime la transición (reduced-motion, pestaña en bg, etc.)
+        setTimeout(finish, 600);
+      });
+    }
+
+    async function animateTo(nextText) {
+      if (running || !el) return;
+      running = true;
+
+      // Salida (siempre hacia arriba)
+      el.classList.remove(...ENTER);
+      el.classList.add("slide-exit");
+      requestAnimationFrame(() => el.classList.add("slide-exit-active"));
+      await onTransitionEndOnce(el);
+      el.classList.remove(...EXIT);
+
+      // Entrada (siempre desde abajo hacia arriba)
+      el.textContent = nextText;
+      el.classList.add("slide-enter");
+      requestAnimationFrame(() => el.classList.add("slide-enter-active"));
+      await onTransitionEndOnce(el);
+      el.classList.remove(...ENTER);
+
+      running = false;
+    }
+
+    // Loop temporal sin setInterval (evita choques de timers si hay lag)
+    async function loop() {
+      idx = (idx + 1) % words.length;
+      await animateTo(words[idx]);
+      setTimeout(loop, 2000);
+    }
+
+    setTimeout(loop, 2000);
+  })();
+</script>
+
 
   <!-- ====== WebGL helpers ====== -->
   <script>
