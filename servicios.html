@@ -97,196 +97,275 @@
     </div>
   </section>
 
-  <!-- SERVICIOS (3 bloques) -->
-  <section id="servicios" class="container mx-auto px-6 pb-20 md:pb-28">
-    <h2 class="text-2xl md:text-3xl font-extrabold mb-6 flex items-center gap-3">
-      <img src="solomon.png" alt="" class="w-7 h-7">
-      Qué hacemos
-    </h2>
+<!-- SERVICIOS (3 bloques) — shaders alineados y SIEMPRE contenidos en su widget -->
+<section id="servicios" class="container mx-auto px-6 pb-20 md:pb-28">
+  <h2 class="text-2xl md:text-3xl font-extrabold mb-6 flex items-center gap-3">
+    <img src="solomon.png" alt="" class="w-7 h-7">
+    Qué hacemos
+  </h2>
 
-    <div class="grid lg:grid-cols-3 gap-6">
-      <!-- Ideación -->
-      <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white">
-        <div class="grid grid-cols-1 gap-4 items-stretch">
-          <div>
-            <h3 class="text-xl font-bold">Ideación</h3>
-            <p class="text-zinc-600 mt-2 max-w-prose">
-              Exploramos opciones y aterrizamos oportunidades en prototipos claros. Definimos el mínimo valioso, riesgos y métricas.
-            </p>
-            <ul class="mt-4 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
-              <li>Hipótesis & métricas</li><li>Blueprint MVP</li>
-              <li>Mapa de valor</li><li>Plan de prueba</li>
-            </ul>
-          </div>
-          <div class="anim-box" aria-label="Ideación — tetraedros flotando">
-            <canvas id="cv-idea"></canvas>
-          </div>
+  <style>
+    /* Tarjeta contenedora: recorta cualquier desborde del shader */
+    #servicios .service{
+      position: relative;
+      height: 100%;
+      overflow: hidden;          /* <- evita que el canvas se salga del widget */
+      border-radius: 0.75rem;    /* igual a rounded-xl */
+      isolation: isolate;        /* asegura stacking dentro de la tarjeta */
+    }
+    /* Layout interno: texto arriba, espacio flexible, shader abajo */
+    #servicios .service-grid{
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 1rem;
+      min-height: 100%;
+    }
+    #servicios .service .copy{align-self:start}
+    #servicios .service .spacer{min-height:0}
+
+    /* Caja del shader: también recorta y nunca desborda */
+    #servicios .anim-box{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;      /* altura uniforme */
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 0.75rem;
+      overflow: hidden;          /* <- clip adicional en el nivel del shader */
+      z-index: 0;
+    }
+    #servicios .anim-box canvas{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+
+  <div class="grid lg:grid-cols-3 gap-6 items-stretch">
+    <!-- Ideación -->
+    <article class="service p-5 md:p-6 border border-zinc-200/70 bg-white">
+      <div class="service-grid">
+        <div class="copy">
+          <h3 class="text-xl font-bold">Ideación</h3>
+          <p class="text-zinc-600 mt-2 max-w-prose">
+            Exploramos opciones y aterrizamos oportunidades en prototipos claros. Definimos el mínimo valioso, riesgos y métricas.
+          </p>
+          <ul class="mt-4 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
+            <li>Hipótesis & métricas</li><li>Blueprint MVP</li>
+            <li>Mapa de valor</li><li>Plan de prueba</li>
+          </ul>
         </div>
-      </article>
-
-      <!-- Refinamiento -->
-      <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white">
-        <div class="grid grid-cols-1 gap-4 items-stretch">
-          <div>
-            <h3 class="text-xl font-bold">Refinamiento</h3>
-            <p class="text-zinc-600 mt-2 max-w-prose">
-              Pulimos UX, rendimiento y costes. Reducimos complejidad y hacemos que todo “se sienta” rápido y sólido.
-            </p>
-            <ul class="mt-4 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
-              <li>Auditoría UX</li><li>Performance</li>
-              <li>Hardening</li><li>Observabilidad</li>
-            </ul>
-          </div>
-          <div class="anim-box" aria-label="Refinamiento — bits en líneas">
-            <canvas id="cv-refine"></canvas>
-          </div>
+        <div class="spacer"></div>
+        <div class="anim-box" aria-label="Ideación — cubos flotando">
+          <canvas id="cv-idea"></canvas>
         </div>
-      </article>
+      </div>
+    </article>
 
-      <!-- Difusión -->
-      <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white">
-        <div class="grid grid-cols-1 gap-4 items-stretch">
-          <div>
-            <h3 class="text-xl font-bold">Difusión</h3>
-            <p class="text-zinc-600 mt-2 max-w-prose">
-              Hacemos visible el valor: micrositios, motion y pitch con copy claro para decisión y adopción rápida.
-            </p>
-            <ul class="mt-4 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
-              <li>Micrositio/Pitch</li><li>Motion/UI</li>
-              <li>Brand basics</li><li>Assets sociales</li>
-            </ul>
-          </div>
-          <div class="anim-box" aria-label="Difusión — expansión concéntrica">
-            <canvas id="cv-diffuse"></canvas>
-          </div>
+    <!-- Refinamiento -->
+    <article class="service p-5 md:p-6 border border-zinc-200/70 bg-white">
+      <div class="service-grid">
+        <div class="copy">
+          <h3 class="text-xl font-bold">Refinamiento</h3>
+          <p class="text-zinc-600 mt-2 max-w-prose">
+            Pulimos UX, rendimiento y costes. Reducimos complejidad y hacemos que todo “se sienta” rápido y sólido.
+          </p>
+          <ul class="mt-4 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
+            <li>Auditoría UX</li><li>Performance</li>
+            <li>Hardening</li><li>Observabilidad</li>
+          </ul>
         </div>
-      </article>
-    </div>
-
-    <div class="mt-10 text-center">
-      <a href="contacto.html" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black">
-        Hablemos de tu reto
-      </a>
-    </div>
-  </section>
-
-  <!-- ENTREGABLES (por tipo) -->
-  <section id="entregables" class="container mx-auto px-6 pb-20 md:pb-28">
-    <h2 class="text-2xl md:text-3xl font-extrabold mb-6">Entregables</h2>
-
-    <div class="grid md:grid-cols-3 gap-6">
-      <!-- Websites -->
-      <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full">
-        <div class="flex flex-col gap-4 h-full">
-          <div class="anim-box"><canvas id="cv-websites"></canvas></div>
-          <div>
-            <h3 class="text-xl font-bold">Websites</h3>
-            <p class="text-zinc-600 mt-2">Landing y sitios de producto rápidos, accesibles y medibles.</p>
-          </div>
-          <div class="mt-auto">
-            <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-              Cotizar →
-            </a>
-          </div>
+        <div class="spacer"></div>
+        <div class="anim-box" aria-label="Refinamiento — cubo giro/pausa">
+          <canvas id="cv-refine"></canvas>
         </div>
-      </article>
+      </div>
+    </article>
 
-      <!-- Apps -->
-      <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full">
-        <div class="flex flex-col gap-4 h-full">
-          <div class="anim-box"><canvas id="cv-apps"></canvas></div>
-          <div>
-            <h3 class="text-xl font-bold">Apps</h3>
-            <p class="text-zinc-600 mt-2">Web apps y microfronts con performance y DX impecables.</p>
-          </div>
-          <div class="mt-auto">
-            <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-              Cotizar →
-            </a>
-          </div>
+    <!-- Difusión -->
+    <article class="service p-5 md:p-6 border border-zinc-200/70 bg-white">
+      <div class="service-grid">
+        <div class="copy">
+          <h3 class="text-xl font-bold">Difusión</h3>
+          <p class="text-zinc-600 mt-2 max-w-prose">
+            Hacemos visible el valor: micrositios, motion y pitch con copy claro para decisión y adopción rápida.
+          </p>
+          <ul class="mt-4 text-sm text-zinc-600 grid grid-cols-2 gap-2 max-w-xl">
+            <li>Micrositio/Pitch</li><li>Motion/UI</li>
+            <li>Brand basics</li><li>Assets sociales</li>
+          </ul>
         </div>
-      </article>
-
-      <!-- Agentes IA -->
-      <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full">
-        <div class="flex flex-col gap-4 h-full">
-          <div class="anim-box"><canvas id="cv-agentes"></canvas></div>
-          <div>
-            <h3 class="text-xl font-bold">Agentes IA</h3>
-            <p class="text-zinc-600 mt-2">Workflows y copilotos conectados a tus datos y APIs.</p>
-          </div>
-          <div class="mt-auto">
-            <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-              Cotizar →
-            </a>
-          </div>
+        <div class="spacer"></div>
+        <div class="anim-box" aria-label="Difusión — aro de cubos">
+          <canvas id="cv-diffuse"></canvas>
         </div>
-      </article>
+      </div>
+    </article>
+  </div>
 
-      <!-- Módulos SaaS -->
-      <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full">
-        <div class="flex flex-col gap-4 h-full">
-          <div class="anim-box"><canvas id="cv-saas"></canvas></div>
-          <div>
-            <h3 class="text-xl font-bold">Módulos SaaS</h3>
-            <p class="text-zinc-600 mt-2">Add-ons de pago, auth, billing, analytics y más.</p>
-          </div>
-          <div class="mt-auto">
-            <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-              Cotizar →
-            </a>
-          </div>
+  <div class="mt-10 text-center">
+    <a href="contacto.html" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black">
+      Hablemos de tu reto
+    </a>
+  </div>
+</section>
+
+<script>
+/* Igualador de alturas: mantiene los shaders a la MISMA altura entre tarjetas
+   sin permitir que nada se salga del contenedor. */
+(function(){
+  const scope = document.getElementById('servicios');
+  if(!scope) return;
+
+  const copies  = Array.from(scope.querySelectorAll('.service .copy'));
+  const spacers = Array.from(scope.querySelectorAll('.service .spacer'));
+
+  function align(){
+    spacers.forEach(s=>s.style.minHeight='0px');
+    const maxH = Math.max(...copies.map(c=>c.getBoundingClientRect().height));
+    copies.forEach((c,i)=>{
+      const diff = Math.max(0, maxH - c.getBoundingClientRect().height);
+      spacers[i].style.minHeight = diff + 'px';
+    });
+  }
+
+  const ro = new ResizeObserver(align);
+  copies.forEach(c=>ro.observe(c));
+  window.addEventListener('load', align, {once:true});
+  window.addEventListener('resize', align, {passive:true});
+})();
+</script>
+
+<!-- ENTREGABLES (por tipo) — versión con UN solo frame por widget -->
+<section id="entregables" class="container mx-auto px-6 pb-20 md:pb-28">
+  <h2 class="text-2xl md:text-3xl font-extrabold mb-6">Entregables</h2>
+
+  <style>
+    /* Canvas full-bleed dentro del ÚNICO frame del widget */
+    .deliverable-media{position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:0.875rem; background:#f4f4f5}
+    .deliverable-media canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+  </style>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <!-- Websites -->
+    <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full">
+      <div class="flex flex-col gap-4 h-full">
+        <!-- ÚNICO frame: el del widget (article). El canvas NO dibuja marcos. -->
+        <div class="deliverable-media" id="wrap-websites">
+          <canvas id="cv-websites" aria-label="Websites preview"></canvas>
         </div>
-      </article>
-
-      <!-- Implementación (menor protagonismo) -->
-      <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full opacity-90">
-        <div class="flex flex-col gap-4 h-full">
-          <div class="anim-box"><canvas id="cv-impl"></canvas></div>
-          <div>
-            <h3 class="text-xl font-bold">Implementación</h3>
-            <p class="text-zinc-600 mt-2">Despliegues y adopción de software existente, con foco en valor.</p>
-          </div>
-          <div class="mt-auto">
-            <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-              Consultar →
-            </a>
-          </div>
+        <div>
+          <h3 class="text-xl font-bold">Websites</h3>
+          <p class="text-zinc-600 mt-2">Landing y sitios de producto rápidos, accesibles y medibles.</p>
         </div>
-      </article>
-    </div>
+        <div class="mt-auto">
+          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
+            Cotizar →
+          </a>
+        </div>
+      </div>
+    </article>
 
-    <!-- CTA inferior -->
-    <div class="mt-10 text-center">
-      <a href="casos.html" class="inline-flex items-center justify-center rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black">
-        Ver casos
-      </a>
-    </div>
-  </section>
-  
+    <!-- Apps -->
+    <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full">
+      <div class="flex flex-col gap-4 h-full">
+        <div class="deliverable-media" id="wrap-apps">
+          <canvas id="cv-apps" aria-label="Apps preview"></canvas>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold">Apps</h3>
+          <p class="text-zinc-600 mt-2">Web apps y microfronts con performance y DX impecables.</p>
+        </div>
+        <div class="mt-auto">
+          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
+            Cotizar →
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Agentes IA -->
+    <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full">
+      <div class="flex flex-col gap-4 h-full">
+        <div class="deliverable-media" id="wrap-agentes">
+          <canvas id="cv-agentes" aria-label="Agentes IA preview"></canvas>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold">Agentes IA</h3>
+          <p class="text-zinc-600 mt-2">Workflows y copilotos conectados a tus datos y APIs.</p>
+        </div>
+        <div class="mt-auto">
+          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
+            Cotizar →
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Módulos SaaS -->
+    <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full">
+      <div class="flex flex-col gap-4 h-full">
+        <div class="deliverable-media" id="wrap-saas">
+          <canvas id="cv-saas" aria-label="Módulos SaaS preview"></canvas>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold">Módulos SaaS</h3>
+          <p class="text-zinc-600 mt-2">Add-ons de pago, auth, billing, analytics y más.</p>
+        </div>
+        <div class="mt-auto">
+          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
+            Cotizar →
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Implementación -->
+    <article class="service p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white h-full opacity-90">
+      <div class="flex flex-col gap-4 h-full">
+        <div class="deliverable-media" id="wrap-impl">
+          <canvas id="cv-impl" aria-label="Implementación preview"></canvas>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold">Implementación</h3>
+          <p class="text-zinc-600 mt-2">Despliegues y adopción de software existente, con foco en valor.</p>
+        </div>
+        <div class="mt-auto">
+          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
+            Consultar →
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- CTA inferior -->
+  <div class="mt-10 text-center">
+    <a href="casos.html" class="inline-flex items-center justify-center rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black">
+      Ver casos
+    </a>
+  </div>
+</section>
+
 <script>
 /* ============================================================
-   ENTREGABLES: Imágenes “clay” estáticas en canvas
-   - Carga y dibuja imágenes reales dentro de los <canvas> existentes.
-   - Aspecto “clay”: marco redondeado con sombra suave y trazo grafito.
-   - En desktop: al hover hace un micro-zoom + highlight breve.
-   - En móvil: estático; activa el mismo highlight cuando entra a viewport.
+   ENTREGABLES con imágenes: un SOLO frame (el del widget)
+   - El canvas NO agrega bordes ni marcos: sólo recorta y dibuja la foto.
+   - Micro-zoom muy sutil en hover/visibilidad, sin paneo (no aparecen márgenes).
    ============================================================ */
 (function(){
-  const INK = "#1f1f1f";           // grafito oscuro
-  const BG  = "#ffffff";
-  const SHADOW = "rgba(0,0,0,.14)";
+  cconst sources = {
+  "cv-websites": "images/websites.png",
+  "cv-apps":     "images/apps.png",
+  "cv-agentes":  "https://plus.unsplash.com/premium_photo-1683121718643-fb18d2668d53?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "cv-saas":     "https://images.unsplash.com/photo-1634848577969-bc28ee71ffc1?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "cv-impl":     "images/proyectos.png"   // Implementación (local)
+};
 
-  // Mapea canvas -> URL
-  const sources = {
-    "cv-websites": "https://images.unsplash.com/photo-1519222970733-f546218fa6d7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "cv-apps":     "https://images.unsplash.com/photo-1620207284057-e6c6b3d1b4c0?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "cv-agentes":  "https://plus.unsplash.com/premium_photo-1683121718643-fb18d2668d53?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "cv-saas":     "https://images.unsplash.com/photo-1664526936810-ec0856d31b92?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "cv-impl":     "https://images.unsplash.com/photo-1620393470010-fd62b8ab841d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  };
+  const canHover = matchMedia("(hover:hover) and (pointer:fine)").matches;
 
-  /* --------- helpers --------- */
   function setup(canvas){
     const ctx = canvas.getContext("2d");
     function fit(){
@@ -294,137 +373,90 @@
       const r = canvas.getBoundingClientRect();
       const w = Math.max(1, (r.width  * dpr) | 0);
       const h = Math.max(1, (r.height * dpr) | 0);
-      if (canvas.width !== w || canvas.height !== h) {
-        canvas.width = w; canvas.height = h;
-      }
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
     }
     fit(); addEventListener("resize", fit, {passive:true});
     return { ctx, fit };
   }
-  function rr(ctx,x,y,w,h,r){
+
+  function drawCover(ctx, img, x, y, w, h, scale){
+    // Clip a la caja del widget (único frame)
+    const r = 14; // radio visual del contenedor (de la clase .deliverable-media)
     const R = Math.min(r, w/2, h/2);
+    ctx.save();
     ctx.beginPath();
     ctx.moveTo(x+R,y);
     ctx.arcTo(x+w,y, x+w,y+h, R);
     ctx.arcTo(x+w,y+h, x,y+h, R);
     ctx.arcTo(x,y+h, x,y, R);
     ctx.arcTo(x,y, x+w,y, R);
-  }
-  function clayFrame(ctx, x,y,w,h, r){
-    // sombra suave
-    ctx.save();
-    ctx.shadowColor = SHADOW;
-    ctx.shadowBlur = 22;
-    ctx.shadowOffsetX = 10;
-    ctx.shadowOffsetY = 14;
-    rr(ctx,x,y,w,h,r);
-    ctx.fillStyle = BG; ctx.fill();
-    ctx.restore();
+    ctx.clip();
 
-    // borde sutil
-    rr(ctx,x,y,w,h,r);
-    ctx.lineWidth = 1 * Math.min(2, window.devicePixelRatio||1);
-    ctx.strokeStyle = "rgba(0,0,0,.12)"; ctx.stroke();
-  }
-  function drawImageCover(ctx, img, x,y,w,h, r, scale=1, dx=0, dy=0){
-    // clip redondeado
-    ctx.save();
-    rr(ctx,x,y,w,h,r); ctx.clip();
-
-    // calcular “cover”
+    // cover sin paneo
     const iw = img.naturalWidth, ih = img.naturalHeight;
     const arImg = iw/ih, arBox = w/h;
     let dw, dh;
-    if (arImg > arBox) { // imagen más ancha
-      dh = h*scale; dw = dh*arImg;
-    } else {            // imagen más alta
-      dw = w*scale; dh = dw/arImg;
-    }
-    const sx = x + (w - dw)/2 + dx * (w*0.02);
-    const sy = y + (h - dh)/2 + dy * (h*0.02);
+    if (arImg > arBox) { dh = h*scale; dw = dh*arImg; }
+    else { dw = w*scale; dh = dw/arImg; }
+    const sx = x + (w - dw)/2;
+    const sy = y + (h - dh)/2;
 
-    // imagen ligeramente desaturada para “clay”
-    ctx.filter = "saturate(0.85) contrast(1.02) brightness(1.02)";
+    ctx.filter = "saturate(0.92) contrast(1.03)";
     ctx.drawImage(img, sx, sy, dw, dh);
-    ctx.filter = "none";
-
-    // borde dibujo grafito
     ctx.restore();
-    rr(ctx,x,y,w,h,r);
-    ctx.lineWidth = 1.6 * Math.min(2, window.devicePixelRatio||1);
-    ctx.strokeStyle = INK; ctx.stroke();
   }
-
-  /* --------- main --------- */
-  const canHover = matchMedia("(hover:hover) and (pointer:fine)").matches;
 
   Object.keys(sources).forEach((id)=>{
     const canvas = document.getElementById(id);
     if(!canvas) return;
 
+    const { ctx, fit } = setup(canvas);
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.src = sources[id];
 
-    const { ctx, fit } = setup(canvas);
     let active = false, t0 = 0, raf = 0;
-
     function render(t){
-      if(!img.complete) { raf = requestAnimationFrame(render); return; }
+      if(!img.complete){ raf = requestAnimationFrame(render); return; }
       fit();
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0,0,W,H);
-      ctx.fillStyle = BG; ctx.fillRect(0,0,W,H);
 
-      const pad = Math.max(14, Math.min(W,H)*0.04);
-      const x = pad, y = pad, w = W - pad*2, h = H - pad*2, r = Math.min(22, Math.min(w,h)*0.10);
+      const pad = 0; // full-bleed dentro del ÚNICO frame del widget
+      const x = pad, y = pad, w = W - pad*2, h = H - pad*2;
 
-      clayFrame(ctx, x,y,w,h,r);
-
-      // estado base: estático
-      let scale = 1.0, dx = 0, dy = 0;
-      if(active){
-        // micro-zoom y leve paneo (muy sutil)
-        const tt = (t - t0) * 0.0015;
-        scale = 1.025 + 0.005*Math.sin(tt);
-        dx = Math.sin(tt*0.6);
-        dy = Math.cos(tt*0.4);
+      const baseScale = 1.022; // pequeño overscan para no mostrar márgenes
+      let scale = baseScale;
+      if (active){
+        const tt = (t - t0) * 0.0011;
+        scale = baseScale + 0.005*(0.5 + 0.5*Math.sin(tt)); // micro-zoom 0.5%
       }
-      drawImageCover(ctx, img, x,y,w,h,r, scale, dx, dy);
 
-      // highlight fino en estado activo
-      if(active){
-        ctx.save();
-        rr(ctx, x+3, y+3, w-6, h-6, r-3);
-        ctx.strokeStyle = "rgba(30,30,30,.18)";
-        ctx.lineWidth = 2 * Math.min(2, window.devicePixelRatio||1);
-        ctx.stroke();
-        ctx.restore();
-      }
+      drawCover(ctx, img, x,y,w,h, scale);
 
       raf = requestAnimationFrame(render);
     }
 
-    // Interacciones
-    const wrap = canvas.closest(".service") || canvas.parentElement;
+    const wrap = canvas.parentElement; // .deliverable-media
+    const card = canvas.closest(".service") || wrap;
+
     if (canHover) {
-      wrap.addEventListener("pointerenter", ()=>{ active = true; t0 = performance.now(); }, {passive:true});
-      wrap.addEventListener("pointerleave", ()=>{ active = false; }, {passive:true});
+      card.addEventListener("pointerenter", ()=>{ active = true; t0 = performance.now(); }, {passive:true});
+      card.addEventListener("pointerleave", ()=>{ active = false; }, {passive:true});
     }
-    // móvil / visibilidad
+
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
-        if(e.isIntersecting && e.intersectionRatio>0.85){ active = true; t0 = performance.now(); }
-        else if(e.intersectionRatio<0.55){ active = false; }
+        if(e.isIntersecting && e.intersectionRatio > 0.95){ active = true; t0 = performance.now(); }
+        else if(e.intersectionRatio < 0.7){ active = false; }
       });
-    }, {threshold:[0,.55,.85,1]});
-    io.observe(wrap);
+    }, {threshold:[0,.7,.95,1]});
+    io.observe(card);
     addEventListener("beforeunload", ()=>io.disconnect(), {once:true});
 
     img.onload = ()=>{ cancelAnimationFrame(raf); raf = requestAnimationFrame(render); };
     raf = requestAnimationFrame(render);
   });
-
 })();
 </script>
 
