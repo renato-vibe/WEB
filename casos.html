@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Casos — Solomon Labs</title>
+  <link rel="icon" href="solomon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",Arial}
+    /* Reutiliza look de index/servicios */
+    .focus-ring:focus-visible{outline:3px solid #6366f1;outline-offset:2px;border-radius:.75rem}
+/* Masonry */
+.masonry{position:relative;min-height:240px}
+.ms-item{
+  position:absolute; top:0; left:0;
+  width:240px; height:240px;
+  border-radius:1rem; overflow:hidden;
+  background:#f8f8f8; border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 8px 30px rgba(0,0,0,.05);
+  transform-origin:center;
+  transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
+  visibility:hidden; /* evita parpadeo en 0,0 antes de layout */
+}
+.ms-item:hover{transform:translateY(-2px) scale(1.01); box-shadow:0 18px 45px rgba(0,0,0,.08)}
+.ms-img{position:absolute; inset:0; background-size:cover; background-position:center}
+.ms-grad{position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0) 45%, rgba(0,0,0,.55)); opacity:.0; transition:opacity .25s ease}
+.ms-item:hover .ms-grad{opacity:1}
+.ms-meta{position:absolute; left:12px; right:12px; bottom:12px; display:grid; gap:6px; z-index:2}
+.ms-tag{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; letter-spacing:.02em; color:#0b1020; background:rgba(255,255,255,.9); border:1px solid rgba(0,0,0,.08)}
+.ms-title{font-weight:700; font-size:14px; letter-spacing:.01em; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.5)}
+@media (prefers-reduced-motion:reduce){
+  .ms-item,.ms-grad{transition:none}
+}
+  </style>
+</head>
+<body class="bg-white text-zinc-900 antialiased">
+<!-- Header -->
+<header class="container mx-auto px-6 py-4 flex items-center justify-between">
+  <a class="inline-flex items-center gap-3 focus-ring" href="index.html" aria-label="Inicio — Solomon Labs">
+    <img src="solomon.png" alt="Solomon Labs" class="w-9 h-9">
+    <span class="text-xl font-extrabold tracking-tight">Solomon Labs</span>
+  </a>
+  <nav class="hidden sm:flex items-center gap-1">
+    <a href="index.html"     class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Inicio</a>
+    <a href="servicios.html" class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Servicios</a>
+    <a href="casos.html"     class="text-sm text-zinc-900 font-semibold focus-ring px-3 py-2 rounded-md" aria-current="page">Casos</a>
+    <a href="contacto.html"  class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Contacto</a>
+    <button type="button" class="ml-1 inline-flex items-center gap-2 rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 focus-ring" aria-label="Cambiar idioma (ENG/ESP)">
+      ENG / ESP
+    </button>
+  </nav>
+  <button id="nav-toggle" class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-md border border-zinc-300 text-zinc-700 hover:bg-zinc-50 focus-ring" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+  </button>
+</header>
+<!-- Mobile menu panel -->
+<nav id="mobile-nav" class="sm:hidden hidden container mx-auto px-6 pb-4">
+  <div class="mt-2 rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
+    <a href="index.html"     class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Inicio</a>
+    <a href="servicios.html" class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Servicios</a>
+    <a href="casos.html"     class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Casos</a>
+    <a href="contacto.html"  class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Contacto</a>
+    <div class="border-t border-zinc-200"></div>
+    <button type="button" class="w-full text-left px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50" aria-label="Cambiar idioma (ENG/ESP)">
+      ENG / ESP
+    </button>
+  </div>
+</nav>
+<script>
+  (function() {
+    const btn = document.getElementById('nav-toggle');
+    const panel = document.getElementById('mobile-nav');
+    if (!btn || !panel) return;
+    btn.addEventListener('click', () => {
+      const isHidden = panel.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(!isHidden));
+    });
+    addEventListener('resize', () => {
+      if (innerWidth >= 640 && !panel.classList.contains('hidden')) {
+        panel.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }, { passive:true });
+  })();
+</script>
+<main id="top">
+  <!-- HERO -->
+  <section id="hero" class="container mx-auto px-6">
+    <div class="flex gap-6 md:gap-8 py-16 md:py-[6.5rem] items-center justify-center flex-col text-center">
+      <p class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100/60 px-4 py-2 text-xs md:text-sm text-zinc-700">
+        Casos Solomon Labs
+      </p>
+      <h1 class="text-4xl md:text-6xl tracking-tighter font-extrabold">Casos de éxito</h1>
+      <p class="text-lg md:text-xl leading-relaxed tracking-tight text-zinc-600 max-w-2xl">
+        Selección de prototipos y lanzamientos rápidos con tecnologías de IA.
+      </p>
+    </div>
+  </section>
+  <!-- MASONRY -->
+  <section class="container mx-auto px-6 pb-20 md:pb-28">
+    <div class="rounded-2xl border border-zinc-200/70 bg-white p-4 md:p-6">
+      <div id="masonry" class="masonry" aria-live="polite"></div>
+      <p class="text-sm text-zinc-500 mt-3">Tip: pasa el mouse para ver el enfoque; clic abre demo.</p>
+    </div>
+  </section>
+  <!-- FOOTER -->
+  <footer id="contacto" class="border-t border-zinc-200/70 py-10">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="solomon.png" alt="" class="w-8 h-8">
+        <strong>Solomon Labs</strong>
+      </div>
+      <p class="text-zinc-600">¿Tienes un reto? En 30&nbsp;min trazamos el primer sprint.</p>
+      <a href="contacto.html" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black focus-ring">Agenda una llamada</a>
+    </div>
+  </footer>
+</main>
+<!-- Masonry (vanilla, responsive + animación de entrada) -->
+<script>
+  // Dataset (puedes reemplazar con tus casos reales)
+  const ITEMS = [
+    { id:'a1',  img:'https://picsum.photos/seed/a1/800/1200',  url:'#', tag:'Agent Ops',  title:'Asistente de Backoffice' },
+    { id:'a2',  img:'https://picsum.photos/seed/a2/1200/900',  url:'#', tag:'Prototipo UX', title:'Checkout conversacional' },
+    { id:'a3',  img:'https://picsum.photos/seed/a3/900/900',   url:'#', tag:'Vision',     title:'QA en línea de producción' },
+    { id:'a4',  img:'https://picsum.photos/seed/a4/1100/1400', url:'#', tag:'RAG',        title:'Soporte con base de conocimiento' },
+    { id:'a5',  img:'https://picsum.photos/seed/a5/1300/900',  url:'#', tag:'Automation', title:'Bots para procesos internos' },
+    { id:'a6',  img:'https://picsum.photos/seed/a6/1000/1300', url:'#', tag:'Gen UI',     title:'Brief-to-UI en minutos' },
+    { id:'a7',  img:'https://picsum.photos/seed/a7/900/1200',  url:'#', tag:'SaaS',       title:'Módulo de reportes AI' },
+    { id:'a8',  img:'https://picsum.photos/seed/a8/1200/1000', url:'#', tag:'Analytics',  title:'Insights en lenguaje natural' },
+    { id:'a9',  img:'https://picsum.photos/seed/a9/1400/1000', url:'#', tag:'Copilot',    title:'Ayudante para ventas' },
+    { id:'a10', img:'https://picsum.photos/seed/a10/1000/1000',url:'#', tag:'Data Ops',   title:'Normalización de datos' }
+  ];
+
+  // Breakpoints → columnas
+  const QUERIES = ['(min-width:1500px)','(min-width:1100px)','(min-width:760px)','(min-width:520px)'];
+  const COLS    = [5,4,3,2]; const DEFAULTC = 1;
+
+  const list = document.getElementById('masonry');
+
+  // Crear tarjetas
+  ITEMS.forEach(it=>{
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'ms-item focus-ring';
+    el.dataset.key = it.id;
+    el.setAttribute('aria-label', `${it.title} — ${it.tag}`);
+    el.innerHTML = `
+      <div class="ms-img" style="background-image:url('${it.img}')"></div>
+      <div class="ms-grad"></div>
+      <div class="ms-meta">
+        <span class="ms-tag">${it.tag}</span>
+        <div class="ms-title">${it.title}</div>
+      </div>`;
+    el.addEventListener('click', ()=> window.open(it.url,'_blank','noopener'));
+    list.appendChild(el);
+  });
+
+  // Precargar para medir proporciones
+  async function preload(items){
+    return Promise.all(items.map(it=>new Promise(res=>{
+      const im=new Image(); im.src=it.img;
+      im.onload = ()=>res({...it, natW: im.naturalWidth||1000, natH: im.naturalHeight||1000});
+      im.onerror= ()=>res({...it, natW: 1000, natH: 1000});
+    })));
+  }
+  const colsFromViewport = ()=>{
+    const i = QUERIES.findIndex(q=>matchMedia(q).matches);
+    return COLS[i] ?? DEFAULTC;
+  };
+
+  (async function init(){
+    const items = await preload(ITEMS);
+
+    // listeners
+    const onBPChange = ()=> layout(items, true);
+    QUERIES.forEach(q=> matchMedia(q).addEventListener('change', onBPChange));
+    addEventListener('resize', ()=> layout(items, false), {passive:true});
+
+    const ro = new ResizeObserver(()=> layout(items, false));
+    ro.observe(list);
+
+    const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Parámetros (más lento y desde esquina superior izquierda)
+    const ENTER_TRANSFORM_DUR = REDUCED ? 0 : 1.35; // s
+    const ENTER_FADE_DUR      = REDUCED ? 0 : 1.1;  // s
+    const ENTER_STAG_BASE_MS  = REDUCED ? 0 : 160;  // ms
+    const ENTER_STAG_STEP_MS  = REDUCED ? 0 : 70;   // ms por tarjeta
+    const RELAYOUT_DUR        = REDUCED ? 0 : 0.60; // s
+    const BLUR_PX             = 14;
+
+    let firstPaint = true;
+
+    function layout(items, snap=false){
+      const width = list.clientWidth || list.getBoundingClientRect().width;
+      if(!width) return;
+
+      const cols = colsFromViewport();
+      const gap  = 16;
+      const colW = (width - gap*(cols-1)) / cols;
+      const heights = new Array(cols).fill(0);
+      let maxH = 0;
+
+      items.forEach((it, i)=>{
+        const col = heights.indexOf(Math.min(...heights));
+        const x   = col * (colW + gap);
+        const h   = Math.max(160, Math.round(colW * (it.natH/it.natW)));
+        const y   = heights[col];
+
+        heights[col] += h + gap;
+        maxH = Math.max(maxH, heights[col]);
+
+        const el = list.querySelector(`[data-key="${it.id}"]`);
+        if(!el) return;
+
+        // tamaño y punto final
+        el.style.width  = colW + 'px';
+        el.style.height = h + 'px';
+
+        if (firstPaint) {
+          // Estado inicial: TODAS parten desde (0,0) — esquina superior izquierda del bloque
+          el.style.transformOrigin = 'top left';
+          el.style.transform = `translate(0px, 0px)`;
+          el.style.opacity   = '0';
+          el.style.filter    = `blur(${BLUR_PX}px)`;
+          el.style.visibility = 'visible';
+
+          // Forzar un frame y luego animar hacia su destino con retardo por índice (más lento)
+          requestAnimationFrame(()=>{
+            // transición más lenta que el original
+            const tf = `transform ${ENTER_TRANSFORM_DUR}s cubic-bezier(.22,.9,.16,1)`;
+            const op = `opacity ${ENTER_FADE_DUR}s ease`;
+            const fl = `filter ${ENTER_FADE_DUR}s ease`;
+            el.style.transition = `${tf}, ${op}, ${fl}`;
+
+            const delay = ENTER_STAG_BASE_MS + i * ENTER_STAG_STEP_MS; // cascada desde (0,0)
+            setTimeout(()=>{
+              el.style.transform = `translate(${x}px, ${y}px)`;
+              el.style.opacity   = '1';
+              el.style.filter    = 'blur(0px)';
+            }, delay);
+          });
+        } else {
+          // Reubicaciones posteriores (más cortas)
+          if (snap || REDUCED) {
+            el.style.transition = 'none';
+            // reflow para aplicar inmediatamente
+            void el.offsetHeight;
+            el.style.transform = `translate(${x}px, ${y}px)`;
+          } else {
+            el.style.transition = `transform ${RELAYOUT_DUR}s cubic-bezier(.22,.9,.16,1)`;
+            el.style.transform  = `translate(${x}px, ${y}px)`;
+          }
+          el.style.visibility = 'visible';
+        }
+      });
+
+      list.style.height = Math.ceil(maxH) + 'px';
+      firstPaint = false;
+    }
+
+    layout(items, true);
+  })();
+</script>
+</body>
+</html>
