@@ -21,17 +21,19 @@
 <!-- Header -->
 <header class="container mx-auto px-6 py-4 flex items-center justify-between">
   <!-- Logo / Inicio -->
-  <a class="inline-flex items-center gap-3" href="index.html" aria-label="Inicio — Solomon Labs">
+  <a class="inline-flex items-center gap-3 focus:ring-2 focus:ring-zinc-300 rounded-md" href="/" aria-label="Inicio — Solomon Labs">
     <img src="solomon.png" alt="Solomon Labs" class="w-9 h-9">
     <span class="text-xl font-extrabold tracking-tight">Solomon Labs</span>
   </a>
 
   <!-- Desktop nav -->
   <nav class="hidden sm:flex items-center gap-1">
-    <a href="index.html"      class="text-sm text-zinc-700 hover:text-black px-3 py-2 rounded-md">Inicio</a>
-    <a href="servicios.html"  class="text-sm text-zinc-900 font-semibold px-3 py-2 rounded-md">Servicios</a>
-    <a href="casos.html"      class="text-sm text-zinc-700 hover:text-black px-3 py-2 rounded-md">Casos</a>
-    <a href="contacto.html"   class="text-sm text-zinc-700 hover:text-black px-3 py-2 rounded-md">Contacto</a>
+    <a href="/"           class="text-sm text-zinc-700 hover:text-black px-3 py-2 rounded-md">Inicio</a>
+    <a href="/servicios"  class="text-sm text-zinc-900 font-semibold px-3 py-2 rounded-md" aria-current="page">Servicios</a>
+    <a href="/casos"      class="text-sm text-zinc-700 hover:text-black px-3 py-2 rounded-md">Casos</a>
+    <a href="/contacto"   class="text-sm text-zinc-700 hover:text-black px-3 py-2 rounded-md">Contacto</a>
+
+    <!-- Idioma (placeholder) -->
     <button type="button"
             class="ml-1 inline-flex items-center gap-2 rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50"
             aria-label="Cambiar idioma (ENG/ESP)">
@@ -43,7 +45,7 @@
   <button id="nav-toggle"
           class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-md border border-zinc-300 text-zinc-700 hover:bg-zinc-50"
           aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
     </svg>
   </button>
@@ -52,10 +54,10 @@
 <!-- Mobile menu panel -->
 <nav id="mobile-nav" class="sm:hidden hidden container mx-auto px-6 pb-4">
   <div class="mt-2 rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-    <a href="index.html"      class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Inicio</a>
-    <a href="servicios.html"  class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Servicios</a>
-    <a href="casos.html"      class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Casos</a>
-    <a href="contacto.html"   class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Contacto</a>
+    <a href="/"           class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Inicio</a>
+    <a href="/servicios"  class="block px-4 py-3 text-sm font-semibold text-zinc-900 bg-zinc-50">Servicios</a>
+    <a href="/casos"      class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Casos</a>
+    <a href="/contacto"   class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Contacto</a>
     <div class="border-t border-zinc-200"></div>
     <button type="button"
             class="w-full text-left px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50"
@@ -206,10 +208,12 @@
   </div>
 
   <div class="mt-10 text-center">
-    <a href="contacto.html" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black">
-      Hablemos de tu reto
-    </a>
-  </div>
+  <a href="/contacto"
+     class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black focus:outline-none focus:ring-2 focus:ring-zinc-300"
+     aria-label="Ir a la sección de contacto para hablar sobre tu reto">
+    Hablemos de tu reto
+  </a>
+</div>
 </section>
 
 <script>
@@ -261,9 +265,6 @@
           <p class="text-zinc-600 mt-2">Landing y sitios de producto rápidos, accesibles y medibles.</p>
         </div>
         <div class="mt-auto">
-          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-            Cotizar →
-          </a>
         </div>
       </div>
     </article>
@@ -279,9 +280,6 @@
           <p class="text-zinc-600 mt-2">Web apps y microfronts con performance y DX impecables.</p>
         </div>
         <div class="mt-auto">
-          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-            Cotizar →
-          </a>
         </div>
       </div>
     </article>
@@ -297,9 +295,6 @@
           <p class="text-zinc-600 mt-2">Workflows y copilotos conectados a tus datos y APIs.</p>
         </div>
         <div class="mt-auto">
-          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-            Cotizar →
-          </a>
         </div>
       </div>
     </article>
@@ -315,9 +310,6 @@
           <p class="text-zinc-600 mt-2">Add-ons de pago, auth, billing, analytics y más.</p>
         </div>
         <div class="mt-auto">
-          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-            Cotizar →
-          </a>
         </div>
       </div>
     </article>
@@ -333,20 +325,19 @@
           <p class="text-zinc-600 mt-2">Despliegues y adopción de software existente, con foco en valor.</p>
         </div>
         <div class="mt-auto">
-          <a href="contacto.html" class="inline-flex items-center gap-2 text-zinc-900 font-medium hover:underline rounded-md">
-            Consultar →
-          </a>
         </div>
       </div>
     </article>
   </div>
 
   <!-- CTA inferior -->
-  <div class="mt-10 text-center">
-    <a href="casos.html" class="inline-flex items-center justify-center rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black">
-      Ver casos
-    </a>
-  </div>
+<div class="mt-10 text-center">
+  <a href="/casos"
+     class="inline-flex items-center justify-center rounded-xl bg-zinc-900 text-white px-6 py-3 text-base hover:bg-black focus:outline-none focus:ring-2 focus:ring-zinc-300"
+     aria-label="Ver casos de éxito">
+    Ver casos
+  </a>
+</div>
 </section>
 
 <script>
@@ -464,16 +455,20 @@
 
 
   <!-- FOOTER -->
-  <footer id="contacto" class="border-t border-zinc-200/70 py-10">
-    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
-      <div class="flex items-center gap-3">
-        <img src="solomon.png" alt="" class="w-8 h-8">
-        <strong>Solomon Labs</strong>
-      </div>
-      <p class="text-zinc-600">¿Tienes un reto? En 30&nbsp;min trazamos el primer sprint.</p>
-      <a href="contacto.html" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black">Agenda una llamada</a>
+<footer id="contacto" class="border-t border-zinc-200/70 py-10">
+  <div class="container mx-auto px-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+    <div class="flex items-center gap-3">
+      <img src="solomon.png" alt="Logo Solomon Labs" class="w-8 h-8">
+      <strong>Solomon Labs</strong>
     </div>
-  </footer>
+    <p class="text-zinc-600">¿Tienes un reto? En 30&nbsp;min trazamos el primer sprint.</p>
+    <a href="/contacto"
+       class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black focus:outline-none focus:ring-2 focus:ring-zinc-300"
+       aria-label="Agenda una llamada con Solomon Labs">
+      Agenda una llamada
+    </a>
+  </div>
+</footer>
 </main>
 
 <!-- ====== Animaciones Canvas 2D: tetraedros wireframe (fondo blanco, grafito #222) ====== -->
