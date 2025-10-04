@@ -106,7 +106,7 @@
     <div class="grid md:grid-cols-[minmax(0,1fr)_26rem] gap-6 items-stretch">
       <!-- Formulario -->
       <article class="p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white">
-        <form id="contactForm" class="grid gap-5" novalidate>
+        <form id="contactForm" action="https://formspree.io/f/xdkwdoqk" method="POST" class="grid gap-5">
           <!-- anti-spam honeypot -->
           <input type="text" name="company_website" aria-hidden="true" tabindex="-1" autocomplete="off" style="position:absolute;left:-10000px;opacity:0">
 
@@ -224,66 +224,75 @@
 
 <!-- ====== Formspree (fetch) ====== -->
 <script>
-  (function(){
-    const FORM_ENDPOINT = "https://formspree.io/f/xdkwdoqk"; // ← Reemplaza por tu endpoint
-    const form   = document.getElementById('contactForm');
-    const btn    = document.getElementById('submitBtn');
-    const spin   = document.getElementById('spinner');
-    const status = document.getElementById('formStatus');
-    const thanks = document.getElementById('thankyou');
+(function(){
+  const FORM_ENDPOINT = "https://formspree.io/f/xdkwdoqk"; // verifica que sea el tuyo
+  const form   = document.getElementById('contactForm');
+  const btn    = document.getElementById('submitBtn');
+  const spin   = document.getElementById('spinner');
+  const status = document.getElementById('formStatus');
+  const thanks = document.getElementById('thankyou');
 
-    function setStatus(message, variant = 'muted'){
-      if (!status) return;
-      status.textContent = message;
-      status.classList.remove('text-zinc-600','text-red-600','text-emerald-600');
-      const tone = variant === 'error' ? 'text-red-600'
-        : variant === 'success' ? 'text-emerald-600'
-        : 'text-zinc-600';
-      status.classList.add(tone);
-    }
+  function setStatus(message, variant = 'muted'){
+    status.textContent = message;
+    status.classList.remove('text-zinc-600','text-red-600','text-emerald-600');
+    status.classList.add(variant==='error'?'text-red-600':variant==='success'?'text-emerald-600':'text-zinc-600');
+  }
 
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      setStatus('');
-      // honeypot: si está lleno, aborta
-      if (form.company_website && form.company_website.value.trim() !== "") return;
-
-      // validación nativa
-      if (!form.reportValidity()) return;
-
-      btn.disabled = true; spin.classList.remove('hidden'); btn.classList.add('opacity-80','cursor-not-allowed');
-
-      const payload = new FormData(form);
-      payload.set('email', form.email.value.trim());
-      payload.set('phone', form.phone.value.trim());
-      payload.set('role', form.role.value);
-      payload.set('purpose', form.purpose.value);
-      payload.set('message', form.message.value.trim());
-      payload.set('_replyto', form.email.value.trim());
-      payload.set('_subject', 'Nuevo contacto desde solomonlabs.cl');
-
-      try{
-        const res = await fetch(FORM_ENDPOINT, {
-          method: "POST",
-          headers: { "Accept": "application/json" },
-          body: payload
-        });
-        if (res.ok){
-          setStatus('Mensaje enviado. Te contactaremos en breve.', 'success');
-          form.classList.add('hidden');
-          thanks.classList.remove('hidden');
-          form.reset();
-        } else {
-          const data = await res.json().catch(()=>({}));
-          throw new Error(data.error || "No se pudo enviar. Intenta nuevamente.");
-        }
-      }catch(err){
-        setStatus(err.message || "Error de red. Intenta nuevamente.", 'error');
-      }finally{
-        btn.disabled = false; spin.classList.add('hidden'); btn.classList.remove('opacity-80','cursor-not-allowed');
+  function isValid(){
+    // Fallback robusto para Safari/Firefox
+    if (typeof form.checkValidity === 'function') {
+      const ok = form.checkValidity();
+      if (!ok) {
+        form.reportValidity?.();                  // si existe, muestra UI nativa
+        (form.querySelector(':invalid')||{}).focus?.();
       }
-    });
-  })();
+      return ok;
+    }
+    // fallback super básico si el navegador es muy viejo
+    return !!form.email.value.trim();
+  }
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    setStatus('');
+
+    // honeypot
+    if (form.company_website && form.company_website.value.trim() !== "") return;
+
+    if (!isValid()) return;
+
+    btn.disabled = true; spin.classList.remove('hidden');
+    btn.classList.add('opacity-80','cursor-not-allowed');
+
+    const payload = new FormData(form);
+    payload.set('_replyto', form.email.value.trim());
+    payload.set('_subject','Nuevo contacto desde solomonlabs.cl');
+
+    // Si fetch no existe, fallback al submit nativo (POST action=Formspree)
+    if (typeof fetch !== 'function') { form.submit(); return; }
+
+    try{
+      const res = await fetch(FORM_ENDPOINT, { method:'POST', headers:{'Accept':'application/json'}, body: payload });
+      const data = await res.json().catch(()=> ({}));
+
+      if (res.ok) {
+        setStatus('Mensaje enviado. Te contactaremos en breve.','success');
+        form.classList.add('hidden');
+        thanks.classList.remove('hidden');
+        form.reset();
+      } else {
+        // Mensajes propios de Formspree (p.ej. endpoint sin verificar)
+        const msg = (data && (data.error || (data.errors && data.errors[0]?.message))) || 'No se pudo enviar. Intenta nuevamente.';
+        throw new Error(msg);
+      }
+    } catch (err){
+      console.error(err);
+      setStatus(err.message || 'Error de red. Intenta nuevamente.','error');
+    } finally {
+      btn.disabled = false; spin.classList.add('hidden'); btn.classList.remove('opacity-80','cursor-not-allowed');
+    }
+  });
+})();
 </script>
 
 <!-- ====== Animación Canvas 2D: Difusión ====== -->
