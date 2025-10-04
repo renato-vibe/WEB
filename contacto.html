@@ -232,9 +232,19 @@
     const status = document.getElementById('formStatus');
     const thanks = document.getElementById('thankyou');
 
+    function setStatus(message, variant = 'muted'){
+      if (!status) return;
+      status.textContent = message;
+      status.classList.remove('text-zinc-600','text-red-600','text-emerald-600');
+      const tone = variant === 'error' ? 'text-red-600'
+        : variant === 'success' ? 'text-emerald-600'
+        : 'text-zinc-600';
+      status.classList.add(tone);
+    }
+
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
-      status.textContent = "";
+      setStatus('');
       // honeypot: si está lleno, aborta
       if (form.company_website && form.company_website.value.trim() !== "") return;
 
@@ -243,23 +253,23 @@
 
       btn.disabled = true; spin.classList.remove('hidden'); btn.classList.add('opacity-80','cursor-not-allowed');
 
-      const payload = {
-        email:   form.email.value.trim(),
-        phone:   form.phone.value.trim(),
-        role:    form.role.value,
-        purpose: form.purpose.value,
-        message: form.message.value.trim(),
-        _subject: "Nuevo contacto desde solomonlabs.cl",
-        _replyto: form.email.value.trim()
-      };
+      const payload = new FormData(form);
+      payload.set('email', form.email.value.trim());
+      payload.set('phone', form.phone.value.trim());
+      payload.set('role', form.role.value);
+      payload.set('purpose', form.purpose.value);
+      payload.set('message', form.message.value.trim());
+      payload.set('_replyto', form.email.value.trim());
+      payload.set('_subject', 'Nuevo contacto desde solomonlabs.cl');
 
       try{
         const res = await fetch(FORM_ENDPOINT, {
           method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify(payload)
+          headers: { "Accept": "application/json" },
+          body: payload
         });
         if (res.ok){
+          setStatus('Mensaje enviado. Te contactaremos en breve.', 'success');
           form.classList.add('hidden');
           thanks.classList.remove('hidden');
           form.reset();
@@ -268,7 +278,7 @@
           throw new Error(data.error || "No se pudo enviar. Intenta nuevamente.");
         }
       }catch(err){
-        status.textContent = err.message || "Error de red. Intenta nuevamente.";
+        setStatus(err.message || "Error de red. Intenta nuevamente.", 'error');
       }finally{
         btn.disabled = false; spin.classList.add('hidden'); btn.classList.remove('opacity-80','cursor-not-allowed');
       }
