@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contacto — Solomon Labs</title>
+  <link rel="icon" href="fav.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",Arial}
+    .focus-ring:focus-visible{outline:3px solid #6366f1;outline-offset:2px;border-radius:.75rem}
+    .anim-box{position:relative;border-radius:1rem;background:#000;overflow:hidden;min-height:18rem;width:min(100%,28rem);margin:0 auto}
+    .anim-box canvas{
+      position:absolute;
+      top:1.25rem;
+      right:1.25rem;
+      bottom:1.25rem;
+      left:1.25rem;
+      display:block;
+    }
+    .shader-card{display:flex;align-items:center;justify-content:center}
+    @media (min-width:768px){
+      .anim-box canvas{top:1.5rem;right:1.5rem;bottom:1.5rem;left:1.5rem}
+    }
+    .btn{transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .input{appearance:none;display:block;width:100%;border-radius:.75rem;border:1px solid rgba(0,0,0,.12);padding:.75rem 1rem}
+    .input:focus{outline:0;box-shadow:0 0 0 3px rgba(99,102,241,.35);border-color:#6366f1}
+    .label{display:block;margin-bottom:.45rem;font-weight:600;font-size:.9rem}
+    .help{font-size:.8rem;color:rgb(82,82,91)}
+    .tag{display:inline-flex;align-items:center;padding:.3rem .6rem;border-radius:999px;border:1px solid rgba(0,0,0,.12);background:#f6f6f6;font-size:.75rem;font-weight:600;color:#3f3f46}
+    @media (prefers-reduced-motion:reduce){
+      .btn{transition:none}
+    }
+  </style>
+</head>
+<body class="bg-white text-zinc-900 antialiased">
+
+<!-- Header -->
+<header class="container mx-auto px-6 py-4 flex items-center justify-between">
+  <a class="inline-flex items-center gap-3 focus-ring" href="/" aria-label="Inicio — Solomon Labs">
+    <img src="solomon.png" alt="Solomon Labs" class="w-9 h-9">
+    <span class="text-xl font-extrabold tracking-tight">Solomon Labs</span>
+  </a>
+
+  <nav class="hidden sm:flex items-center gap-1">
+    <a href="/"          class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Inicio</a>
+    <a href="/servicios" class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Servicios</a>
+    <a href="/casos"     class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Casos</a>
+    <a href="/contacto"  class="text-sm text-zinc-900 font-semibold focus-ring px-3 py-2 rounded-md" aria-current="page">Contacto</a>
+    <button type="button"
+      class="ml-1 inline-flex items-center gap-2 rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 focus-ring"
+      aria-label="Cambiar idioma (ENG/ESP)">
+      ENG / ESP
+    </button>
+  </nav>
+
+  <button id="nav-toggle"
+    class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-md border border-zinc-300 text-zinc-700 hover:bg-zinc-50 focus-ring"
+    aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+  </button>
+</header>
+
+<!-- Mobile menu panel -->
+<nav id="mobile-nav" class="sm:hidden hidden container mx-auto px-6 pb-4">
+  <div class="mt-2 rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
+    <a href="/"          class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Inicio</a>
+    <a href="/servicios" class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Servicios</a>
+    <a href="/casos"     class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Casos</a>
+    <a href="/contacto"  class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Contacto</a>
+    <div class="border-t border-zinc-200"></div>
+    <button type="button" class="w-full text-left px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50" aria-label="Cambiar idioma (ENG/ESP)">
+      ENG / ESP
+    </button>
+  </div>
+</nav>
+
+<script>
+  (function() {
+    const btn = document.getElementById('nav-toggle');
+    const panel = document.getElementById('mobile-nav');
+    if (!btn || !panel) return;
+    btn.addEventListener('click', () => {
+      const isHidden = panel.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(!isHidden));
+    });
+    addEventListener('resize', () => {
+      if (innerWidth >= 640 && !panel.classList.contains('hidden')) {
+        panel.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }, { passive:true });
+  })();
+</script>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="container mx-auto px-6">
+    <div class="flex gap-6 md:gap-8 py-16 md:py-[6.5rem] items-center justify-center flex-col text-center">
+      <span class="tag">¿Listo para comenzar?</span>
+      <h1 class="text-4xl md:text-6xl tracking-tighter font-extrabold">Conversemos</h1>
+      <p class="text-lg md:text-xl leading-relaxed tracking-tight text-zinc-600 max-w-2xl">
+        Cuéntanos tu contexto y demos el siguiente paso.
+      </p>
+    </div>
+  </section>
+
+  <!-- FORM + SHADER -->
+  <section class="container mx-auto px-6 pb-20 md:pb-28">
+    <div class="grid md:grid-cols-[minmax(0,1fr)_26rem] gap-6 items-stretch">
+      <!-- Formulario -->
+      <article class="p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white">
+        <form id="contactForm" class="grid gap-5" novalidate>
+          <!-- anti-spam honeypot -->
+          <input type="text" name="company_website" aria-hidden="true" tabindex="-1" autocomplete="off" style="position:absolute;left:-10000px;opacity:0">
+
+          <div>
+            <label class="label" for="email">Correo electrónico</label>
+            <input class="input" id="email" name="email" type="email" inputmode="email" required placeholder="tu@empresa.com" />
+            <p class="help">Te escribiremos a este correo. Nunca compartimos tus datos.</p>
+          </div>
+
+          <div>
+            <label class="label" for="phone">Teléfono</label>
+            <input class="input" id="phone" name="phone" type="tel" inputmode="tel" placeholder="+56 9 1234 5678" />
+          </div>
+
+          <div>
+            <label class="label" for="role">Tu rol</label>
+            <select class="input" id="role" name="role" required>
+              <option value="" disabled selected>Selecciona una opción</option>
+              <optgroup label="Dirección / Fundadores">
+                <option>Founder / Co-founder</option>
+                <option>C-Level / Dirección</option>
+              </optgroup>
+              <optgroup label="Producto">
+                <option>Product Manager</option>
+                <option>Product Owner</option>
+              </optgroup>
+              <optgroup label="Diseño">
+                <option>UX Designer</option>
+                <option>UI / Visual Designer</option>
+              </optgroup>
+              <optgroup label="Desarrollo">
+                <option>Frontend Developer</option>
+                <option>Backend Developer</option>
+                <option>Full-stack Developer</option>
+              </optgroup>
+              <optgroup label="Data / IA">
+                <option>Data Scientist / Engineer</option>
+                <option>ML Engineer</option>
+              </optgroup>
+              <optgroup label="Go-to-market">
+                <option>Ventas / Comercial</option>
+                <option>Marketing / Growth</option>
+              </optgroup>
+              <optgroup label="Operaciones / Otros">
+                <option>Operaciones</option>
+                <option>Otro</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div>
+            <label class="label" for="purpose">Propósito</label>
+            <select class="input" id="purpose" name="purpose" required>
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option>Quiero una reunión</option>
+              <option>Quiero una cotización</option>
+              <option>Quiero más detalles de sus servicios</option>
+              <option>Validar un MVP / Prototipo</option>
+              <option>Implementación / Soporte</option>
+              <option>Colaboración / Alianza</option>
+              <option>Otro</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="label" for="message">Cuéntanos más</label>
+            <textarea class="input" id="message" name="message" rows="6" placeholder="Contexto, objetivos, plazos, links…"></textarea>
+          </div>
+
+          <div class="flex items-center justify-between gap-3">
+            <p id="formStatus" class="text-sm text-zinc-600"></p>
+            <button id="submitBtn" type="submit"
+              class="btn inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black">
+              Enviar
+              <svg id="spinner" class="h-4 w-4 animate-spin hidden" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <!-- Gracias (oculto al inicio) -->
+        <div id="thankyou" class="hidden grid gap-3 text-center py-8">
+          <span class="tag place-self-center">¡Gracias!</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold">Mensaje enviado</h2>
+          <p class="text-zinc-600">Te responderemos a la brevedad desde <strong>r.marcantoninirossi@gmail.com</strong>.</p>
+          <div class="mt-2">
+            <a href="/casos" class="inline-flex items-center justify-center rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black">Ver casos</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Shader (Difusión / Lightwave) -->
+      <aside class="p-5 md:p-6 rounded-xl border border-zinc-200/70 bg-white shader-card">
+        <div class="anim-box" aria-label="Difusión — lightwave">
+          <canvas id="cv-lightwave"></canvas>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-zinc-200/70 py-10">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="solomon.png" alt="" class="w-8 h-8">
+        <strong>Solomon Labs</strong>
+      </div>
+      <p class="text-zinc-600">¿Tienes un reto? En 30&nbsp;min trazamos el primer sprint.</p>
+      <a href="/contacto" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black focus-ring">Agenda una llamada</a>
+    </div>
+  </footer>
+</main>
+
+<!-- ====== Formspree (fetch) ====== -->
+<script>
+  (function(){
+    const FORM_ENDPOINT = "https://formspree.io/f/xdkwdoqk"; // ← Reemplaza por tu endpoint
+    const form   = document.getElementById('contactForm');
+    const btn    = document.getElementById('submitBtn');
+    const spin   = document.getElementById('spinner');
+    const status = document.getElementById('formStatus');
+    const thanks = document.getElementById('thankyou');
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      status.textContent = "";
+      // honeypot: si está lleno, aborta
+      if (form.company_website && form.company_website.value.trim() !== "") return;
+
+      // validación nativa
+      if (!form.reportValidity()) return;
+
+      btn.disabled = true; spin.classList.remove('hidden'); btn.classList.add('opacity-80','cursor-not-allowed');
+
+      const payload = {
+        email:   form.email.value.trim(),
+        phone:   form.phone.value.trim(),
+        role:    form.role.value,
+        purpose: form.purpose.value,
+        message: form.message.value.trim(),
+        _subject: "Nuevo contacto desde solomonlabs.cl",
+        _replyto: form.email.value.trim()
+      };
+
+      try{
+        const res = await fetch(FORM_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok){
+          form.classList.add('hidden');
+          thanks.classList.remove('hidden');
+          form.reset();
+        } else {
+          const data = await res.json().catch(()=>({}));
+          throw new Error(data.error || "No se pudo enviar. Intenta nuevamente.");
+        }
+      }catch(err){
+        status.textContent = err.message || "Error de red. Intenta nuevamente.";
+      }finally{
+        btn.disabled = false; spin.classList.add('hidden'); btn.classList.remove('opacity-80','cursor-not-allowed');
+      }
+    });
+  })();
+</script>
+
+<!-- ====== Animación Canvas 2D: Difusión ====== -->
+<script>
+(function(){
+  const DARK = '#222';
+
+  function makeCanvasRunner(canvas, drawFrame){
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    let raf = 0;
+
+    function fit(){
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width * dpr));
+      const h = Math.max(1, Math.floor(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
+    }
+
+    function loop(t){
+      fit();
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.save();
+      drawFrame(ctx, canvas, t);
+      ctx.restore();
+      raf = requestAnimationFrame(loop);
+    }
+
+    addEventListener('resize', fit, {passive:true});
+    fit();
+    raf = requestAnimationFrame(loop);
+    return { stop(){ cancelAnimationFrame(raf); } };
+  }
+
+  function rotX([x,y,z], a){ const c=Math.cos(a), s=Math.sin(a); return [x, y*c - z*s, y*s + z*c]; }
+  function rotY([x,y,z], a){ const c=Math.cos(a), s=Math.sin(a); return [x*c + z*s, y, -x*s + z*c]; }
+  function rotZ([x,y,z], a){ const c=Math.cos(a), s=Math.sin(a); return [x*c - y*s, x*s + y*c, z]; }
+  function add([x,y,z],[dx,dy,dz]){ return [x+dx,y+dy,z+dz]; }
+  function mul([x,y,z],k){ return [x*k,y*k,z*k]; }
+  function projOrtho([x,y], w, h, scale){ return [w/2 + x*scale, h/2 + y*scale]; }
+
+  const V = [
+    [-1,-1,-1],[ 1,-1,-1],[ 1, 1,-1],[-1, 1,-1],
+    [-1,-1, 1],[ 1,-1, 1],[ 1, 1, 1],[-1, 1, 1]
+  ];
+  const E = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+
+  function computeVerts(pos, rot, scale, w, h){
+    const S = Math.min(w,h)*0.07*scale;
+    return V.map(p=>{
+      let q = mul(p, 1);
+      q = rotX(q, rot[0]); q = rotY(q, rot[1]); q = rotZ(q, rot[2]);
+      q = add(q, pos);
+      return projOrtho(q, w, h, S);
+    });
+  }
+
+  function strokeEdges(ctx, verts, color, lineW, alpha=1){
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineW * Math.min(2, window.devicePixelRatio||1);
+    ctx.beginPath();
+    E.forEach(([a,b])=>{
+      const [x1,y1]=verts[a], [x2,y2]=verts[b];
+      ctx.moveTo(x1,y1); ctx.lineTo(x2,y2);
+    });
+    ctx.stroke();
+  }
+
+  function drawCube(ctx, canvas, rot, pos=[0,0,0], scale=1, color=DARK, line=1.6, alpha=1){
+    const vv = computeVerts(pos, rot, scale, canvas.width, canvas.height);
+    strokeEdges(ctx, vv, color, line, alpha);
+  }
+
+  makeCanvasRunner(document.getElementById('cv-lightwave'), (ctx, canvas, t)=>{
+    const w = canvas.width, h = canvas.height;
+    const T = t*0.00090;
+    const cubeScale = 0.99;
+    const pxSize = Math.min(w,h)*0.07*cubeScale;
+    const R = Math.min(w,h)/2/Math.min(2.3, 2.6) + pxSize*0.15;
+    const N = Math.max(8, Math.floor((2*Math.PI*R) / (10.9*pxSize)));
+    const ringAngle = T*0.15;
+
+    for(let i=0;i<N;i++){
+      const a = ringAngle + (i/N)*Math.PI*2;
+      const ux = Math.cos(a) * (R / (Math.min(w,h)*0.07));
+      const uy = Math.sin(a) * (R / (Math.min(w,h)*0.07));
+      const dir = i%2===0 ? 1 : -1;
+      const rot = [T*0.6*dir + i*0.03, T*0.4*dir, 0];
+      drawCube(ctx, canvas, rot, [ux, uy, 0], cubeScale);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
