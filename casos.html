@@ -13,42 +13,42 @@
     body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",Arial}
     /* Reutiliza look de index/servicios */
     .focus-ring:focus-visible{outline:3px solid #6366f1;outline-offset:2px;border-radius:.75rem}
-/* Masonry */
-.masonry{position:relative;min-height:240px}
-.ms-item{
-  position:absolute; top:0; left:0;
-  width:240px; height:240px;
-  border-radius:1rem; overflow:hidden;
-  background:#f8f8f8; border:1px solid rgba(0,0,0,.08);
-  box-shadow:0 8px 30px rgba(0,0,0,.05);
-  transform-origin:center;
-  transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
-  visibility:hidden; /* evita parpadeo en 0,0 antes de layout */
-}
-.ms-item:hover{transform:translateY(-2px) scale(1.01); box-shadow:0 18px 45px rgba(0,0,0,.08)}
-.ms-img{position:absolute; inset:0; background-size:cover; background-position:center}
-.ms-grad{position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0) 45%, rgba(0,0,0,.55)); opacity:.0; transition:opacity .25s ease}
-.ms-item:hover .ms-grad{opacity:1}
-.ms-meta{position:absolute; left:12px; right:12px; bottom:12px; display:grid; gap:6px; z-index:2}
-.ms-tag{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; letter-spacing:.02em; color:#0b1020; background:rgba(255,255,255,.9); border:1px solid rgba(0,0,0,.08)}
-.ms-title{font-weight:700; font-size:14px; letter-spacing:.01em; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.5)}
-@media (prefers-reduced-motion:reduce){
-  .ms-item,.ms-grad{transition:none}
-}
+    /* Masonry */
+    .masonry{position:relative;min-height:240px}
+    .ms-item{
+      position:absolute; top:0; left:0;
+      width:240px; height:240px;
+      border-radius:1rem; overflow:hidden;
+      background:#f8f8f8; border:1px solid rgba(0,0,0,.08);
+      box-shadow:0 8px 30px rgba(0,0,0,.05);
+      transform-origin:center;
+      transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
+      visibility:hidden; /* evita parpadeo en 0,0 antes de layout */
+    }
+    .ms-item:hover{transform:translateY(-2px) scale(1.01); box-shadow:0 18px 45px rgba(0,0,0,.08)}
+    .ms-img{position:absolute; inset:0; background-size:cover; background-position:center}
+    .ms-grad{position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0) 45%, rgba(0,0,0,.55)); opacity:.0; transition:opacity .25s ease}
+    .ms-item:hover .ms-grad{opacity:1}
+    .ms-meta{position:absolute; left:12px; right:12px; bottom:12px; display:grid; gap:6px; z-index:2}
+    .ms-tag{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; letter-spacing:.02em; color:#0b1020; background:rgba(255,255,255,.9); border:1px solid rgba(0,0,0,.08)}
+    .ms-title{font-weight:700; font-size:14px; letter-spacing:.01em; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.5)}
+    @media (prefers-reduced-motion:reduce){
+      .ms-item,.ms-grad{transition:none}
+    }
   </style>
 </head>
 <body class="bg-white text-zinc-900 antialiased">
 <!-- Header -->
 <header class="container mx-auto px-6 py-4 flex items-center justify-between">
-  <a class="inline-flex items-center gap-3 focus-ring" href="index.html" aria-label="Inicio — Solomon Labs">
+  <a class="inline-flex items-center gap-3 focus-ring" href="/" aria-label="Inicio — Solomon Labs">
     <img src="solomon.png" alt="Solomon Labs" class="w-9 h-9">
     <span class="text-xl font-extrabold tracking-tight">Solomon Labs</span>
   </a>
   <nav class="hidden sm:flex items-center gap-1">
-    <a href="index.html"     class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Inicio</a>
-    <a href="servicios.html" class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Servicios</a>
-    <a href="casos.html"     class="text-sm text-zinc-900 font-semibold focus-ring px-3 py-2 rounded-md" aria-current="page">Casos</a>
-    <a href="contacto.html"  class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Contacto</a>
+    <a href="/"           class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Inicio</a>
+    <a href="/servicios"  class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Servicios</a>
+    <a href="/casos"      class="text-sm text-zinc-900 font-semibold focus-ring px-3 py-2 rounded-md" aria-current="page">Casos</a>
+    <a href="/contacto"   class="text-sm text-zinc-700 hover:text-black focus-ring px-3 py-2 rounded-md">Contacto</a>
     <button type="button" class="ml-1 inline-flex items-center gap-2 rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 focus-ring" aria-label="Cambiar idioma (ENG/ESP)">
       ENG / ESP
     </button>
@@ -62,10 +62,10 @@
 <!-- Mobile menu panel -->
 <nav id="mobile-nav" class="sm:hidden hidden container mx-auto px-6 pb-4">
   <div class="mt-2 rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-    <a href="index.html"     class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Inicio</a>
-    <a href="servicios.html" class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Servicios</a>
-    <a href="casos.html"     class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Casos</a>
-    <a href="contacto.html"  class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Contacto</a>
+    <a href="/"           class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Inicio</a>
+    <a href="/servicios"  class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Servicios</a>
+    <a href="/casos"      class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50" aria-current="page">Casos</a>
+    <a href="/contacto"   class="block px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50">Contacto</a>
     <div class="border-t border-zinc-200"></div>
     <button type="button" class="w-full text-left px-4 py-3 text-sm text-zinc-800 hover:bg-zinc-50" aria-label="Cambiar idioma (ENG/ESP)">
       ENG / ESP
@@ -117,10 +117,11 @@
         <strong>Solomon Labs</strong>
       </div>
       <p class="text-zinc-600">¿Tienes un reto? En 30&nbsp;min trazamos el primer sprint.</p>
-      <a href="contacto.html" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black focus-ring">Agenda una llamada</a>
+      <a href="/contacto" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-2.5 hover:bg-black focus-ring">Agenda una llamada</a>
     </div>
   </footer>
 </main>
+
 <!-- Masonry (vanilla, responsive + animación de entrada) -->
 <script>
   // Dataset (puedes reemplazar con tus casos reales)
@@ -224,22 +225,20 @@
         el.style.height = h + 'px';
 
         if (firstPaint) {
-          // Estado inicial: TODAS parten desde (0,0) — esquina superior izquierda del bloque
+          // Todas salen desde (0,0) del contenedor masonry (esquina sup-izq)
           el.style.transformOrigin = 'top left';
           el.style.transform = `translate(0px, 0px)`;
           el.style.opacity   = '0';
           el.style.filter    = `blur(${BLUR_PX}px)`;
           el.style.visibility = 'visible';
 
-          // Forzar un frame y luego animar hacia su destino con retardo por índice (más lento)
           requestAnimationFrame(()=>{
-            // transición más lenta que el original
             const tf = `transform ${ENTER_TRANSFORM_DUR}s cubic-bezier(.22,.9,.16,1)`;
             const op = `opacity ${ENTER_FADE_DUR}s ease`;
             const fl = `filter ${ENTER_FADE_DUR}s ease`;
             el.style.transition = `${tf}, ${op}, ${fl}`;
 
-            const delay = ENTER_STAG_BASE_MS + i * ENTER_STAG_STEP_MS; // cascada desde (0,0)
+            const delay = ENTER_STAG_BASE_MS + i * ENTER_STAG_STEP_MS;
             setTimeout(()=>{
               el.style.transform = `translate(${x}px, ${y}px)`;
               el.style.opacity   = '1';
@@ -247,11 +246,9 @@
             }, delay);
           });
         } else {
-          // Reubicaciones posteriores (más cortas)
           if (snap || REDUCED) {
             el.style.transition = 'none';
-            // reflow para aplicar inmediatamente
-            void el.offsetHeight;
+            void el.offsetHeight; // reflow
             el.style.transform = `translate(${x}px, ${y}px)`;
           } else {
             el.style.transition = `transform ${RELAYOUT_DUR}s cubic-bezier(.22,.9,.16,1)`;
